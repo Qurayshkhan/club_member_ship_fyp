@@ -11,7 +11,7 @@ export default function Authenticated({ auth, header, children }) {
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <nav className="bg-white border-b border-gray-100">
+            <nav className="bg-gray-800 border-b border-gray-100">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex">
@@ -26,7 +26,7 @@ export default function Authenticated({ auth, header, children }) {
                                     href={route("dashboard")}
                                     active={route().current("dashboard")}
                                 >
-                                    Dashboard
+                                    <div className="text-white">Dashboard</div>
                                 </NavLink>
                             </div>
                         </div>
