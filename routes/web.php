@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\MembershipController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Web\HomeController;
 use Illuminate\Foundation\Application;
@@ -36,6 +38,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+
+Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
+
+    // Users
+    Route::get('/users', [UserController::class, 'index'])->name('users');
+
+    //Memberships
+
+    Route::get('/memberships', [MembershipController::class, 'memberShips'])->name('memberships');
 });
 
 require __DIR__ . '/auth.php';

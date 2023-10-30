@@ -20,7 +20,9 @@
 </head>
 
 <body class="font-sans antialiased">
+
     @inertia
+    <div id="portal"></div>
 </body>
 
 </html>

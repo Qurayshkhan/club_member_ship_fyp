@@ -4,6 +4,7 @@ import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
+import SideBar from "@/Components/Admin/Sidebar";
 
 export default function Authenticated({ auth, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
@@ -168,7 +169,16 @@ export default function Authenticated({ auth, header, children }) {
                 </header>
             )}
 
-            <main>{children}</main>
+            <main>
+                <div className="">
+                    <div className="">
+                        <div className="flex gap-1">
+                            <SideBar />
+                            {children}
+                        </div>
+                    </div>
+                </div>
+            </main>
         </div>
     );
 }
