@@ -7,9 +7,8 @@ import { Link } from "@inertiajs/react";
 import SideBar from "@/Components/Admin/Sidebar";
 
 export default function Authenticated({ auth, header, children }) {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] =
-        useState(false);
-
+    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+    const [sideBarWidth, setSideBarWidth] = useState(280);
     return (
         <div className="min-h-screen bg-gray-100">
             <nav className="bg-gray-800 border-b border-gray-100">
@@ -169,16 +168,15 @@ export default function Authenticated({ auth, header, children }) {
                 </header>
             )}
 
-            <main>
-                <div className="">
-                    <div className="">
-                        <div className="flex gap-1">
-                            <SideBar />
-                            {children}
-                        </div>
-                    </div>
-                </div>
-            </main>
+
+            <div className="flex gap-1 items-start">
+                <aside style={{ width: sideBarWidth }} className="sidebar sticky top-0 left-0 overflow-hidden bg-gray-900 h-screen">
+                    <SideBar />
+                </aside>
+                <main style={{ width: `calc(100 % - ${sideBarWidth})` }} className="bg-slate-200 w-full">
+                    {children}
+                </main>
+            </div>
         </div>
     );
 }

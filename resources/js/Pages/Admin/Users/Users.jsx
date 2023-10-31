@@ -15,20 +15,20 @@ function Users(props) {
             <Authenticated auth={props.auth} errors={props.errors}>
                 <Head title="Users" />
                 <ContentSection heading="Users">
-                    <Table hoverable>
-                        <Table.Head className="divide-y">
-                            <Table.HeadCell>Name</Table.HeadCell>
-                            <Table.HeadCell>Email</Table.HeadCell>
-                            <Table.HeadCell>Verified at</Table.HeadCell>
-                            <Table.HeadCell>Action</Table.HeadCell>
-                        </Table.Head>
-                        <Table.Body className="w-full">
-                            {user.map((item, index) => {
-                                return (
-                                    <>
+                    <div className="overflow-x-auto">
+                        <Table hoverable className="overflow-auto">
+                            <Table.Head className="divide-y">
+                                <Table.HeadCell>Name</Table.HeadCell>
+                                <Table.HeadCell>Email</Table.HeadCell>
+                                <Table.HeadCell>Verified at</Table.HeadCell>
+                                <Table.HeadCell>Action</Table.HeadCell>
+                            </Table.Head>
+                            <Table.Body className="w-full">
+                                {user.map((item, index) => {
+                                    return (
                                         <Table.Row
                                             className="bg-white dark:border-gray-700 dark:bg-gray-800 w-full"
-                                            key={item.id}
+                                            key={index}
                                         >
                                             <Table.Cell>{item.name}</Table.Cell>
                                             <Table.Cell>
@@ -46,11 +46,11 @@ function Users(props) {
                                                 </a>
                                             </Table.Cell>
                                         </Table.Row>
-                                    </>
-                                );
-                            })}
-                        </Table.Body>
-                    </Table>
+                                    );
+                                })}
+                            </Table.Body>
+                        </Table>
+                    </div>
                 </ContentSection>
             </Authenticated>
         </>

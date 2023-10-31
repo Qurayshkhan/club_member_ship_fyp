@@ -13,89 +13,88 @@ let SideBar = () => {
     console.log(url);
     return (
         <>
-            <aside className="sidebar w-72 sticky top-0 left-0 overflow-hidden bg-gray-900 h-screen">
-                <div className="flex flex-col p-3">
-                    <div className="flex gap-2 p-5 border-b-2 border-white">
-                        <div className="font-[700]">
-                            {/* <FontAwesomeIcon icon={faGaugeSimpleMin} /> */}
-                            <FontAwesomeIcon
-                                icon={faGauge}
-                                style={
-                                    url === "/dashboard"
-                                        ? activeLinkStyle
-                                        : iconColor
-                                }
-                            />
-                        </div>
-                        <div className="font-[700] text-white">
-                            <Link
-                                style={
-                                    url === "/dashboard"
-                                        ? activeLinkStyle
-                                        : iconColor
-                                }
-                                preserveScroll
-                                className="hover:text-white"
-                                href="/dashboard"
-                            >
-                                Dashboard
-                            </Link>
-                        </div>
+
+            <div className="flex flex-col p-3">
+                <div className="flex gap-2 p-5 border-b-2 border-white">
+                    <div className="font-[700]">
+                        {/* <FontAwesomeIcon icon={faGaugeSimpleMin} /> */}
+                        <FontAwesomeIcon
+                            icon={faGauge}
+                            style={
+                                url === "/dashboard"
+                                    ? activeLinkStyle
+                                    : iconColor
+                            }
+                        />
                     </div>
-                    <div className="flex gap-2 p-5 border-b-2 border-white">
-                        <div className="font-[700]">
-                            <FontAwesomeIcon
-                                icon={faUserGroup}
-                                style={
-                                    url === "/admin/users"
-                                        ? activeLinkStyle
-                                        : iconColor
-                                }
-                            />
-                        </div>
-                        <div className="font-[700] text-white">
-                            <Link
-                                style={
-                                    url === "/admin/users"
-                                        ? activeLinkStyle
-                                        : iconColor
-                                }
-                                preserveScroll
-                                className="hover:text-white"
-                                href={route("users")}
-                            >
-                                Users
-                            </Link>
-                        </div>
-                    </div>
-                    <div className="flex gap-2 p-5 border-b-2 border-white">
-                        <div className="font-[700]">
-                            <FontAwesomeIcon
-                                icon={faTag}
-                                style={
-                                    url === "/admin/memberships"
-                                        ? activeLinkStyle
-                                        : iconColor
-                                }
-                            />
-                        </div>
-                        <div className="font-[700] text-white">
-                            <Link
-                                style={
-                                    url === "/admin/memberships"
-                                        ? activeLinkStyle
-                                        : iconColor
-                                }
-                                preserveScroll
-                                className="hover:text-white"
-                                href={route("memberships")}
-                            >
-                                Membership
-                            </Link>
-                        </div>
+                    <div className="font-[700] text-white">
+                        <Link
+                            style={
+                                url === "/dashboard"
+                                    ? activeLinkStyle
+                                    : iconColor
+                            }
+                            preserveScroll
+                            className="hover:text-white"
+                            href="/dashboard"
+                        >
+                            Dashboard
+                        </Link>
                     </div>
                 </div>
-            </aside>
+                <div className="flex gap-2 p-5 border-b-2 border-white">
+                    <div className="font-[700]">
+                        <FontAwesomeIcon
+                            icon={faUserGroup}
+                            style={
+                                url === "/admin/users"
+                                    ? activeLinkStyle
+                                    : iconColor
+                            }
+                        />
+                    </div>
+                    <div className="font-[700] text-white">
+                        <Link
+                            style={
+                                url === "/admin/users"
+                                    ? activeLinkStyle
+                                    : iconColor
+                            }
+                            preserveScroll
+                            className="hover:text-white"
+                            href={route("users")}
+                        >
+                            Users
+                        </Link>
+                    </div>
+                </div>
+                <div className="flex gap-2 p-5 border-b-2 border-white">
+                    <div className="font-[700]">
+                        <FontAwesomeIcon
+                            icon={faTag}
+                            style={
+                                url === "/admin/memberships"
+                                    ? activeLinkStyle
+                                    : iconColor
+                            }
+                        />
+                    </div>
+                    <div className="font-[700] text-white">
+                        <Link
+                            style={
+                                url === "/admin/memberships"
+                                    ? activeLinkStyle
+                                    : iconColor
+                            }
+                            preserveScroll
+                            className="hover:text-white"
+                            href={route("memberships")}
+                        >
+                            Membership
+                        </Link>
+                    </div>
+                </div>
+            </div>
         </>
     );
 };
