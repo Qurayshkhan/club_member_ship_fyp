@@ -4,7 +4,6 @@ import { Table } from "flowbite-react";
 import { useState } from "react";
 
 let TableComponent = ({ tableHeading }) => {
-    console.log(tableHeading);
     const [tableHeadingCell, setTableHeading] = useState(tableHeading);
     return (
         <Table hoverable>

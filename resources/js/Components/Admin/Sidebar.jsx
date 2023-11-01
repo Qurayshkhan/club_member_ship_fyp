@@ -10,10 +10,8 @@ let SideBar = () => {
     const activeLinkStyle = {
         color: "#f36010", // Color for active link
     };
-    console.log(url);
     return (
         <>
-
             <div className="flex flex-col p-3">
                 <div className="flex gap-2 p-5 border-b-2 border-white">
                     <div className="font-[700]">

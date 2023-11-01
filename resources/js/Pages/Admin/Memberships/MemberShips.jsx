@@ -1,74 +1,165 @@
-"use client";
-
 import { Button, Modal } from "flowbite-react";
 import ContentSection from "@/Components/Admin/ContentSection";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
-import React, { useState } from "react";
+import { Head, usePage } from "@inertiajs/react";
+import React, { useState, useEffect } from "react";
 import { Table } from "flowbite-react";
+import ModalComponent from "@/Components/Admin/Modal";
+import TextInput from "@/Components/TextInput";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import DangerButton from "@/Components/DangerButton";
+import axios from "axios";
+import AlertComponent from "@/Components/Alert";
 
 function MemberShips(props) {
-    const [memberships, setMemberships] = useState([]);
-    // const [showModel, setShowModal] = useState(false);
+    const { memberShips } = usePage().props;
+    const [membershipsList, setMembershipsList] = useState(memberShips);
+    const [showModal, setShowModal] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+    const [handleInput, setHandleInput] = useState({
+        id: "",
+        name: "",
+        price: "",
+        description: "",
+        duration: "",
+    });
 
-    const [openModal, setOpenModal] = useState();
-    const propsModal = { openModal, setOpenModal };
+    const showingModal = () => {
+        setShowModal(true);
+    };
+    const closeModal = () => {
+        setShowModal(false);
+    };
 
-    // const closeModal = () => {
-    //     setShowModal(false);
-    // };
+    let handleChange = (event) => {
+        const { name, value } = event.target;
+        setHandleInput({
+            ...handleInput,
+            [name]: value,
+        });
+    };
 
-    // const showModal = () => {
-    //     setShowModal(true);
-    // };
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        axios.post("/admin/store-membership", handleInput).then((response) => {
+            let { data, code } = response.data;
+            if (code === 200) {
+                setShowAlert(true);
+                setTimeout(() => {
+                    setShowModal(false);
+                    setHandleInput({
+                        id: "",
+                        name: "",
+                        price: "",
+                        description: "",
+                        duration: "",
+                    });
+                    setShowAlert(false);
+                    setMembershipsList(data);
+                }, 1000);
+            }
+        });
+    };
+
     return (
         <>
-            <Modal
-                dismissible
-                show={propsModal.openModal === "dismissible"}
-                onClose={() => propsModal.setOpenModal(undefined)}
-            >
-                <Modal.Header>Terms of Service</Modal.Header>
-                <Modal.Body>
-                    <div className="space-y-6">
-                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                            With less than a month to go before the European
-                            Union enacts new consumer privacy laws for its
-                            citizens, companies around the world are updating
-                            their terms of service agreements to comply.
-                        </p>
-                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                            The European Union’s General Data Protection
-                            Regulation (G.D.P.R.) goes into effect on May 25 and
-                            is meant to ensure a common set of data rights in
-                            the European Union. It requires organizations to
-                            notify users as soon as possible of high-risk data
-                            breaches that could personally affect them.
-                        </p>
+            {showModal && (
+                <ModalComponent closeModal={closeModal}>
+                    {showAlert && (
+                        <AlertComponent>
+                            Membership added successfully
+                        </AlertComponent>
+                    )}
+                    <div className="text-theme-orange font-[700] text-lg">
+                        <h1>Membership</h1>
                     </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={() => propsModal.setOpenModal(undefined)}>
-                        I accept
-                    </Button>
-                    <Button
-                        color="gray"
-                        onClick={() => propsModal.setOpenModal(undefined)}
-                    >
-                        Decline
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-
+                    <div className="mt-4">
+                        <form onSubmit={handleSubmit}>
+                            <input
+                                type="hidden"
+                                name="id"
+                                id="memberId"
+                                value={handleInput.id}
+                                onChange={handleChange}
+                            />
+                            <div className="mb-2">
+                                <InputLabel htmlFor="name" value="Name" />
+                                <TextInput
+                                    id="name"
+                                    name="name"
+                                    value={handleInput.name}
+                                    className="mt-1 block w-full"
+                                    autoComplete="name"
+                                    isFocused={true}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-2">
+                                <InputLabel
+                                    htmlFor="description"
+                                    value="Description"
+                                />
+                                <TextInput
+                                    id="description"
+                                    name="description"
+                                    value={handleInput.description}
+                                    className="mt-1 block w-full"
+                                    autoComplete="description"
+                                    isFocused={true}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-2">
+                                <InputLabel htmlFor="price" value="Price" />
+                                <TextInput
+                                    id="price"
+                                    name="price"
+                                    type="number"
+                                    value={handleInput.price}
+                                    className="mt-1 block w-full"
+                                    autoComplete="price"
+                                    isFocused={true}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-2">
+                                <InputLabel
+                                    htmlFor="duration"
+                                    value="Duration"
+                                />
+                                <TextInput
+                                    id="duration"
+                                    name="duration"
+                                    type="number"
+                                    value={handleInput.duration}
+                                    className="mt-1 block w-full"
+                                    autoComplete="duration"
+                                    isFocused={true}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+                            <div className="w-full text-end flex justify-end gap-1">
+                                <DangerButton onClick={closeModal}>
+                                    Close
+                                </DangerButton>
+                                <PrimaryButton>Create Membership</PrimaryButton>
+                            </div>
+                        </form>
+                    </div>
+                </ModalComponent>
+            )}
             <Authenticated auth={props.auth} errors={props.errors}>
                 <Head title="Memberships" />
                 <ContentSection heading="Memberships">
                     <div className="w-full flex justify-end p-2">
                         <Button
                             gradientDuoTone="purpleToBlue"
-                            onClick={() =>
-                                propsModal.setOpenModal("dismissible")
-                            }
+                            onClick={showingModal}
                         >
                             Add Membership
                         </Button>
@@ -82,32 +173,25 @@ function MemberShips(props) {
                             <Table.HeadCell>Action</Table.HeadCell>
                         </Table.Head>
                         <Table.Body className="w-full">
-                            {memberships.map((item, index) => {
-                                return (
-                                    <>
-                                        <Table.Row
-                                            className="bg-white dark:border-gray-700 dark:bg-gray-800 w-full"
-                                            key={item.id}
+                            {membershipsList.map((item, index) => (
+                                <Table.Row
+                                    className="bg-white dark:border-gray-700 dark:bg-gray-800 w-full"
+                                    key={item.id}
+                                >
+                                    <Table.Cell>{item.name}</Table.Cell>
+                                    <Table.Cell>{item.description}</Table.Cell>
+                                    <Table.Cell>{item.price}</Table.Cell>
+                                    <Table.Cell>{item.duration}</Table.Cell>
+                                    <Table.Cell>
+                                        <a
+                                            className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                                            href="/tables"
                                         >
-                                            <Table.Cell>{item.name}</Table.Cell>
-                                            <Table.Cell>
-                                                {item.email}
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                {item.email_verified_at}
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                <a
-                                                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                                                    href="/tables"
-                                                >
-                                                    <p>Edit</p>
-                                                </a>
-                                            </Table.Cell>
-                                        </Table.Row>
-                                    </>
-                                );
-                            })}
+                                            Edit
+                                        </a>
+                                    </Table.Cell>
+                                </Table.Row>
+                            ))}
                         </Table.Body>
                     </Table>
                 </ContentSection>

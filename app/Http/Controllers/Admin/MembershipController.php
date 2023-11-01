@@ -16,6 +16,17 @@ class MembershipController extends Controller
     }
     public function memberShips()
     {
-        return Inertia::render('Admin/Memberships/MemberShips');
+        $membersShips = $this->membershipService->membershipsService();
+        return Inertia::render('Admin/Memberships/MemberShips', [
+            'memberShips' => $membersShips
+        ]);
+    }
+
+    public function storeMemberShip(Request $request)
+    {
+        try {
+            return $this->membershipService->storeMembershipService($request);
+        } catch (\Exception $exception) {
+        }
     }
 }

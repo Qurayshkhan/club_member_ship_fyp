@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->longText('description')->nullable();
             $table->double('price')->default(0);
-            $table->dateTime('duration')->nullable();
+            $table->double('duration')->default(0);
             $table->timestamps();
         });
     }
