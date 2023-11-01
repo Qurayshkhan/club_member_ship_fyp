@@ -2,10 +2,14 @@
 
 namespace App\Repositories;
 
+
+use App\Helpers\StatusCode;
 use App\Models\Membership;
+use App\Traits\ApiTrait;
 
 class MembershipRepository
 {
+    use ApiTrait;
 
     protected $membership;
     public function __construct(Membership $membership)
@@ -13,5 +17,15 @@ class MembershipRepository
         $this->membership = $membership;
     }
 
-    // Your repository logic goes here
+    public function memberships()
+    {
+        return $this->membership->all();
+    }
+
+    public function store($data)
+    {
+        $this->membership->updateOrCreate(['id' => $data['id']], $data);
+        $membership = $this->memberships();
+        return $this->success($membership, "Success", StatusCode::OK);
+    }
 }

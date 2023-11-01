@@ -3,7 +3,6 @@
 import { Carousel } from "flowbite-react";
 
 export default function StaticCarousel({ props }) {
-    console.log(props);
     return (
         <Carousel slide={false}>
             <img alt="..." src={props.hero_banner_1} />

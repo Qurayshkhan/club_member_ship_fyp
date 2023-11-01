@@ -8,7 +8,6 @@ import React from "react";
 function Users(props) {
     const { users } = usePage().props;
     const [user, setUser] = useState(users);
-    console.log(user);
 
     return (
         <>

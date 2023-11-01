@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Traits;
+
 trait ApiTrait
 {
     public function success($data, $message, $code = 201)
