@@ -29,4 +29,12 @@ class MembershipService
 
         return $this->memberShipRepository->store($data);
     }
+    public function editMemberShipService($membership)
+    {
+        return $this->memberShipRepository->edit($membership);
+    }
+    public function deleteMemberShipService($membership)
+    {
+        return $this->memberShipRepository->delete($membership);
+    }
 }
