@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Services\MembershipService;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -10,8 +11,14 @@ use Inertia\Inertia;
 
 class HomeController extends Controller
 {
+    protected $membershipService;
+    public function __construct(MembershipService $membershipService)
+    {
+        $this->membershipService = $membershipService;
+    }
     public function index()
     {
+        $memberShips = $this->membershipService->membershipsService();
         $image = [
 
             'hero_banner_1' => asset('web/img/hero/hero-1.jpg'),
@@ -28,7 +35,8 @@ class HomeController extends Controller
             'canRegister' => Route::has('register'),
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION,
-            'image' => $image
+            'image' => $image,
+            'memberships' => $memberShips,
         ]);
     }
 }

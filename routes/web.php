@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\MembershipController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Web\MemberController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -57,4 +58,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::delete('/delete-membership/{membership}', [MembershipController::class, 'deleteMemberShip'])->name('edit.membership');
 });
 
+
+Route::group(['prefix' => 'member'], function () {
+
+    // Buy Subscription
+    Route::get('/buy-subscription', [MemberController::class, 'buySubScription'])->name('member.subscription');
+});
 require __DIR__ . '/auth.php';
