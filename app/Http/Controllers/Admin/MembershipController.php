@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\MembershipRequest;
 use App\Services\MembershipService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -22,11 +23,30 @@ class MembershipController extends Controller
         ]);
     }
 
-    public function storeMemberShip(Request $request)
+    public function storeMemberShip(MembershipRequest $request)
     {
         try {
             return $this->membershipService->storeMembershipService($request);
         } catch (\Exception $exception) {
+            info($exception->getMessage());
+        }
+    }
+
+    public function editMemberShip($membership)
+    {
+        try {
+            return $this->membershipService->editMemberShipService($membership);
+        } catch (\Exception $exception) {
+            info($exception->getMessage());
+        }
+    }
+
+    public function deleteMemberShip($membership)
+    {
+        try {
+            return $this->membershipService->deleteMemberShipService($membership);
+        } catch (\Exception $e) {
+            info($e->getMessage());
         }
     }
 }

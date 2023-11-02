@@ -1,4 +1,4 @@
-import { Button, Modal } from "flowbite-react";
+import { Button } from "flowbite-react";
 import ContentSection from "@/Components/Admin/ContentSection";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage } from "@inertiajs/react";
@@ -11,12 +11,22 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import DangerButton from "@/Components/DangerButton";
 import axios from "axios";
 import AlertComponent from "@/Components/Alert";
-
+import ToasterComponent from "@/Components/Toaster";
 function MemberShips(props) {
     const { memberShips } = usePage().props;
     const [membershipsList, setMembershipsList] = useState(memberShips);
     const [showModal, setShowModal] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState("");
+    const [showToast, setShowToast] = useState(false);
+    const [showToastMessage, setShowToastMessage] = useState("");
+
+    const [fieldErrors, setFieldErrors] = useState({
+        name: "",
+        description: "",
+        price: "",
+        duration: "",
+    });
     const [handleInput, setHandleInput] = useState({
         id: "",
         name: "",
@@ -26,6 +36,19 @@ function MemberShips(props) {
     });
 
     const showingModal = () => {
+        setHandleInput({
+            id: "",
+            name: "",
+            price: "",
+            description: "",
+            duration: "",
+        });
+        setFieldErrors({
+            name: "",
+            description: "",
+            price: "",
+            duration: "",
+        })
         setShowModal(true);
     };
     const closeModal = () => {
@@ -38,14 +61,49 @@ function MemberShips(props) {
             ...handleInput,
             [name]: value,
         });
+
+        setFieldErrors({
+            ...fieldErrors,
+            [name]: "",
+        });
     };
+
+    let handleEdit = (memberShipId) => {
+
+        setFieldErrors({
+            name: "",
+            description: "",
+            price: "",
+            duration: "",
+        });
+        axios.get(`/admin/edit-membership/${memberShipId}`).then((response) => {
+            let { data, status } = response;
+
+            if (status == 200) {
+                setShowModal(true);
+                let { id, name, description, price, duration } = data.data;
+                setHandleInput({
+                    id: id,
+                    name: name,
+                    price: price,
+                    description: description,
+                    duration: duration,
+                });
+            }
+
+
+        });
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
         axios.post("/admin/store-membership", handleInput).then((response) => {
-            let { data, code } = response.data;
+            console.log(response);
+            let { data, code, message } = response.data;
+            console.log(data, "data");
             if (code === 200) {
                 setShowAlert(true);
+                setAlertMessage(message);
                 setTimeout(() => {
                     setShowModal(false);
                     setHandleInput({
@@ -57,18 +115,53 @@ function MemberShips(props) {
                     });
                     setShowAlert(false);
                     setMembershipsList(data);
-                }, 1000);
+                }, 2000);
+            }
+        }).catch((error) => {
+            if (error.response && error.response.status === 422) {
+                const errorData = error.response.data;
+                const errorMessages = errorData.errors;
+
+                // Set the error messages for each field
+                setFieldErrors({
+                    name: errorMessages.name ? errorMessages.name[0] : "",
+                    description: errorMessages.description ? errorMessages.description[0] : "",
+                    price: errorMessages.price ? errorMessages.price[0] : "",
+                    duration: errorMessages.duration ? errorMessages.duration[0] : "",
+                });
+            } else {
+                console.error("Error while saving membership", error);
             }
         });
     };
+    let deleteMembership = (membership_id) => {
+        axios.delete(`/admin/delete-membership/${membership_id}`).then((response) => {
+
+            let { data, code, message } = response.data;
+
+            setShowToastMessage(message);
+            setShowToast(true);
+            setMembershipsList(data);
+
+        }).catch((error) => {
+
+        });
+    }
+
+    useEffect(() => {
+        setTimeout(() => {
+            setShowToast(false)
+        }, 2000);
+    }, [showToast])
 
     return (
         <>
+            {showToast && <ToasterComponent message={showToastMessage} color="bg-theme-orange" />}
             {showModal && (
                 <ModalComponent closeModal={closeModal}>
                     {showAlert && (
                         <AlertComponent>
-                            Membership added successfully
+                            {alertMessage}
                         </AlertComponent>
                     )}
                     <div className="text-theme-orange font-[700] text-lg">
@@ -93,8 +186,9 @@ function MemberShips(props) {
                                     autoComplete="name"
                                     isFocused={true}
                                     onChange={handleChange}
-                                    required
+
                                 />
+                                <div className="text-red-500">{fieldErrors.name}</div>
                             </div>
                             <div className="mb-2">
                                 <InputLabel
@@ -109,8 +203,9 @@ function MemberShips(props) {
                                     autoComplete="description"
                                     isFocused={true}
                                     onChange={handleChange}
-                                    required
+
                                 />
+                                <div className="text-red-500">{fieldErrors.description}</div>
                             </div>
                             <div className="mb-2">
                                 <InputLabel htmlFor="price" value="Price" />
@@ -123,8 +218,9 @@ function MemberShips(props) {
                                     autoComplete="price"
                                     isFocused={true}
                                     onChange={handleChange}
-                                    required
+
                                 />
+                                <div className="text-red-500">{fieldErrors.price}</div>
                             </div>
                             <div className="mb-2">
                                 <InputLabel
@@ -140,8 +236,9 @@ function MemberShips(props) {
                                     autoComplete="duration"
                                     isFocused={true}
                                     onChange={handleChange}
-                                    required
+
                                 />
+                                <div className="text-red-500">{fieldErrors.duration}</div>
                             </div>
                             <div className="w-full text-end flex justify-end gap-1">
                                 <DangerButton onClick={closeModal}>
@@ -183,12 +280,19 @@ function MemberShips(props) {
                                     <Table.Cell>{item.price}</Table.Cell>
                                     <Table.Cell>{item.duration}</Table.Cell>
                                     <Table.Cell>
-                                        <a
-                                            className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                                            href="/tables"
-                                        >
-                                            Edit
-                                        </a>
+                                        <div className="flex gap-2">
+
+                                            <div
+                                                className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                                                onClick={() => handleEdit(item.id)}>
+                                                Edit
+                                            </div>
+                                            <div
+                                                className="font-medium text-red-600 hover:underline dark:text-red-500 cursor-pointer"
+                                                onClick={() => deleteMembership(item.id)}>
+                                                Delete
+                                            </div>
+                                        </div>
                                     </Table.Cell>
                                 </Table.Row>
                             ))}

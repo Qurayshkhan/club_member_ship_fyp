@@ -51,6 +51,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('/memberships', [MembershipController::class, 'memberShips'])->name('memberships');
 
     Route::post('/store-membership', [MembershipController::class, 'storeMemberShip'])->name('store.membership');
+
+    Route::get('/edit-membership/{membership}', [MembershipController::class, 'editMemberShip'])->name('edit.membership');
+
+    Route::delete('/delete-membership/{membership}', [MembershipController::class, 'deleteMemberShip'])->name('edit.membership');
 });
 
 require __DIR__ . '/auth.php';
