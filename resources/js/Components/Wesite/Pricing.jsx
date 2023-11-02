@@ -1,73 +1,50 @@
 "use client";
 
+import axios from "axios";
 import { Card } from "flowbite-react";
-import PricingCheck from "./PricingCheck";
+import { useState } from "react";
 
-let PricingCard = () => {
+let PricingCard = ({ id, name, price, description, duration }) => {
+
+    const [planId, setPlanId] = useState({
+        membership_plan_id: id,
+    })
+    const handleSubmit = (event) => {
+        // event.preventDefault();
+        // axios.get('/member/buy-subscription', planId);
+    }
+
     return (
         <Card>
             <h5 className="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">
-                Standard plan
+                {name}
             </h5>
             <div className="flex items-baseline text-gray-900 dark:text-white">
                 <span className="text-3xl font-semibold">$</span>
                 <span className="text-5xl font-extrabold tracking-tight">
-                    49
+                    {price}
                 </span>
                 <span className="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">
-                    /month
+                    /{duration} month
                 </span>
             </div>
-            <ul className="my-7 space-y-5">
-                <li className="flex space-x-3">
-                    <PricingCheck />
-                    <span className="text-base font-normal leading-tight text-gray-500 dark:text-gray-400">
-                        2 team members
-                    </span>
-                </li>
-                <li className="flex space-x-3">
-                    <PricingCheck />
-                    <span className="text-base font-normal leading-tight text-gray-500 dark:text-gray-400">
-                        20GB Cloud storage
-                    </span>
-                </li>
-                <li className="flex space-x-3">
-                    <PricingCheck />
-                    <span className="text-base font-normal leading-tight text-gray-500 dark:text-gray-400">
-                        Integration help
-                    </span>
-                </li>
-                <li className="flex space-x-3 line-through decoration-gray-500">
-                    <PricingCheck />
-                    <span className="text-base font-normal leading-tight text-gray-500">
-                        Sketch Files
-                    </span>
-                </li>
-                <li className="flex space-x-3 line-through decoration-gray-500">
-                    <PricingCheck />
-                    <span className="text-base font-normal leading-tight text-gray-500">
-                        API Access
-                    </span>
-                </li>
-                <li className="flex space-x-3 line-through decoration-gray-500">
-                    <PricingCheck />
-                    <span className="text-base font-normal leading-tight text-gray-500">
-                        Complete documentation
-                    </span>
-                </li>
-                <li className="flex space-x-3 line-through decoration-gray-500">
-                    <PricingCheck />
-                    <span className="text-base font-normal leading-tight text-gray-500">
-                        24×7 phone & email support
-                    </span>
-                </li>
-            </ul>
-            <button
-                className="inline-flex w-full justify-center rounded-lg bg-theme-orange px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-theme-orange focus:outline-none focus:ring-4 focus:ring-cyan-200 dark:focus:ring-cyan-900"
-                type="button"
-            >
-                <p>Choose plan</p>
-            </button>
+            <div className="my-7 space-y-5">
+                <div className="w-[300px]">
+
+                    {description}
+                </div>
+            </div>
+
+
+            <form onSubmit={handleSubmit}>
+                <input type="hidden" name="membership_plan_id" value={planId.id} />
+                <button
+                    className="inline-flex w-full justify-center rounded-lg bg-theme-orange px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-theme-orange focus:outline-none focus:ring-4 focus:ring-cyan-200 dark:focus:ring-cyan-900"
+                    type="submit"
+                >
+                    <p>Choose plan</p>
+                </button>
+            </form>
         </Card>
     );
 };

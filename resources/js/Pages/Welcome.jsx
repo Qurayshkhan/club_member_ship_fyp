@@ -4,12 +4,15 @@ import Cards from "@/Components/Wesite/Cards";
 import { Link, Head, usePage } from "@inertiajs/react";
 import PricingCard from "@/Components/Wesite/Pricing";
 import FooterBrand from "@/Components/Wesite/Footer";
-
-import { Footer, FooterComponent } from "flowbite-react";
+import { useState } from "react";
 export default function Welcome(props) {
-    const { canLogin, canRegister, laravelVersion, phpVersion, image } =
-        usePage().props;
+
+    const { image, memberships } = usePage().props;
+
     const { class_3, class_4, class_5, phone, message, location } = image;
+
+    const [membershipCards, setMemberShipCards] = useState(memberships);
+
     return (
         <>
             <Head title="Home" />
@@ -63,10 +66,13 @@ export default function Welcome(props) {
                         </div>
                     </div>
                     <div className="container mx-auto p-10">
-                        <div className="w-full flex gap-3 flex-grow justify-evenly sm:flex-wrap">
-                            <PricingCard />
-                            <PricingCard />
-                            <PricingCard />
+                        <div className="w-full flex gap-3 flex-grow justify-evenly">
+
+                            {membershipCards.map((item, index) =>
+                                <PricingCard key={index} id={item.id} name={item.name} price={item.price} description={item.description} duration={item.duration} />
+
+                            )}
+
                         </div>
                     </div>
                 </section>
