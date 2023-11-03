@@ -15,4 +15,9 @@ class Membership extends Model
         "description",
         "duration"
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_member_ships', 'membership_id', 'user_id');
+    }
 }

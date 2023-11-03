@@ -41,4 +41,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function memberships()
+    {
+        return $this->belongsToMany(Membership::class, 'user_member_ships', 'user_id', 'membership_id');
+    }
 }

@@ -62,6 +62,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 Route::group(['prefix' => 'member'], function () {
 
     // Buy Subscription
-    Route::get('/buy-subscription', [MemberController::class, 'buySubScription'])->name('member.subscription');
+    Route::get('/get-subscription-form/{membershipId}', [MemberController::class, 'subscriptionForm'])->name('member.subscription.form');
+
+    Route::post('/create-payment-intent', [MemberController::class, 'createPaymentIntent'])->name('payment.intent');
+
+    Route::post('/process-payment', [MemberController::class, 'processPayment'])->name('process.payment');
 });
 require __DIR__ . '/auth.php';

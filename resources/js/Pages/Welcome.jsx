@@ -6,7 +6,6 @@ import PricingCard from "@/Components/Wesite/Pricing";
 import FooterBrand from "@/Components/Wesite/Footer";
 import { useState } from "react";
 export default function Welcome(props) {
-
     const { image, memberships } = usePage().props;
 
     const { class_3, class_4, class_5, phone, message, location } = image;
@@ -28,10 +27,10 @@ export default function Welcome(props) {
                 <section className="w-full bg-gray-900">
                     <div className="text-center p-10">
                         <div className="uppercase text-theme-orange text-2xl font-[700]">
-                            Why Chose us ?
+                            <p>Why Chose us ?</p>
                         </div>
                         <div className="uppercase text-white text-[32px] font-[600]">
-                            PUSH YOUR LIMITS FORWARD
+                            <p> PUSH YOUR LIMITS FORWARD</p>
                         </div>
                     </div>
                     <div className="container h-full mx-auto p-10">
@@ -51,7 +50,7 @@ export default function Welcome(props) {
                             <Cards
                                 props={class_5}
                                 title="Proffesponal training plan"
-                                description=" Exercise equipment is any apparatus or device used during physical activity to enhance the strength or conditioning effects of that exercise by providing either fixed or adjustable amounts of resistance, or to otherwise enhance the experience or outcome of an exercise routine."
+                                description="Exercise equipment is any apparatus or device used during physical activity to enhance the strength or conditioning effects of that exercise by providing either fixed or adjustable amounts of resistance, or to otherwise enhance the experience or outcome of an exercise routine."
                             />
                         </div>
                     </div>
@@ -59,20 +58,24 @@ export default function Welcome(props) {
                 <section className="w-full bg-gray-900">
                     <div className="text-center p-10">
                         <div className="uppercase text-theme-orange text-2xl font-[700]">
-                            OUR PLAN
+                            <p> OUR PLAN</p>
                         </div>
                         <div className="uppercase text-white text-[32px] font-[600]">
-                            CHOOSE YOUR PRICING PLAN
+                            <p>CHOOSE YOUR PRICING PLAN</p>
                         </div>
                     </div>
                     <div className="container mx-auto p-10">
-                        <div className="w-full flex gap-3 flex-grow justify-evenly">
-
-                            {membershipCards.map((item, index) =>
-                                <PricingCard key={index} id={item.id} name={item.name} price={item.price} description={item.description} duration={item.duration} />
-
-                            )}
-
+                        <div className="w-full flex gap-3 flex-grow justify-between flex-wrap">
+                            {membershipCards.map((item, index) => (
+                                <PricingCard
+                                    key={index}
+                                    id={item.id}
+                                    name={item.name}
+                                    price={item.price}
+                                    description={item.description}
+                                    duration={item.duration}
+                                />
+                            ))}
                         </div>
                     </div>
                 </section>

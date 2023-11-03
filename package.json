@@ -30,6 +30,8 @@
         "@heroicons/react": "^2.0.18",
         "@inertiajs/inertia-react": "^0.8.1",
         "@inertiajs/react": "^1.0.12",
+        "@stripe/react-stripe-js": "^2.3.1",
+        "@stripe/stripe-js": "^2.1.11",
         "flowbite": "^2.0.0",
         "flowbite-react": "^0.6.4",
         "jquery": "^3.7.1",
