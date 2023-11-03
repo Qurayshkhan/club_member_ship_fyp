@@ -1,18 +1,18 @@
 "use client";
 
+import { Link } from "@inertiajs/react";
 import axios from "axios";
 import { Card } from "flowbite-react";
 import { useState } from "react";
 
 let PricingCard = ({ id, name, price, description, duration }) => {
-
     const [planId, setPlanId] = useState({
         membership_plan_id: id,
-    })
+    });
     const handleSubmit = (event) => {
         // event.preventDefault();
         // axios.get('/member/buy-subscription', planId);
-    }
+    };
 
     return (
         <Card>
@@ -29,22 +29,18 @@ let PricingCard = ({ id, name, price, description, duration }) => {
                 </span>
             </div>
             <div className="my-7 space-y-5">
-                <div className="w-[300px]">
-
-                    {description}
-                </div>
+                <div className="w-[300px]">{description}</div>
             </div>
-
-
-            <form onSubmit={handleSubmit}>
-                <input type="hidden" name="membership_plan_id" value={planId.id} />
+            <Link
+                href={route("member.subscription.form", { membershipId: id })}
+            >
                 <button
                     className="inline-flex w-full justify-center rounded-lg bg-theme-orange px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-theme-orange focus:outline-none focus:ring-4 focus:ring-cyan-200 dark:focus:ring-cyan-900"
                     type="submit"
                 >
-                    <p>Choose plan</p>
+                    Choose plan
                 </button>
-            </form>
+            </Link>
         </Card>
     );
 };
