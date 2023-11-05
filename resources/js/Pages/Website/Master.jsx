@@ -1,10 +1,15 @@
-import MasterLayout from "@/Layouts/MasterLayout";
+import Navbar from "@/Components/Wesite/Navbar";
 import React from "react";
 
-function Master({ images }) {
+function Master({ props, children }) {
     return (
         <>
-            <MasterLayout images={images}></MasterLayout>
+            <div className="h-screen  bg-gray-900">
+                <section>
+                    <Navbar props={props} />
+                </section>
+                {children}
+            </div>
         </>
     );
 }

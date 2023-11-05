@@ -19,6 +19,13 @@ class MemberController extends Controller
         $this->membershipService = $membershipService;
     }
 
+    public function membershipPlans()
+    {
+
+        $memberships = $this->membershipService->membershipsService();
+        return Inertia::render('Website/MembershipsPlans', ['memberships' => $memberships]);
+    }
+
     public function subscriptionForm($membershipId)
     {
         if (Auth::check()) {
@@ -34,27 +41,27 @@ class MemberController extends Controller
         // 4242 4242 4242 4242
 
         try {
+            $amount = $request->amount == 0 ? 0.50 * 100 : $request->input('amount') * 100;
             Stripe::setApiKey(config('services.stripe.secret'));
 
             $paymentIntent = \Stripe\PaymentIntent::create([
-                'amount' => $request->input('amount') * 100,
+                'amount' => $amount,
                 'currency' => 'usd',
             ]);
             $user = User::find(auth()->user()->id);
-            $user->memberships()->attach($request->membership_id);
+            $user->memberships()->sync($request->membership_id);
             return response()->json([
                 'paymentIntent' => $paymentIntent,
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
-            ], 500); // Return a 500 Internal Server Error in case of an exception
+            ], 500);
         }
     }
 
     public function processPayment(Request $request)
     {
-        // Handle payment processing and confirmation
         info($request->all());
     }
 }

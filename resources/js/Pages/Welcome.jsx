@@ -5,6 +5,7 @@ import { Link, Head, usePage } from "@inertiajs/react";
 import PricingCard from "@/Components/Wesite/Pricing";
 import FooterBrand from "@/Components/Wesite/Footer";
 import { useState } from "react";
+import Master from "./Website/Master";
 export default function Welcome(props) {
     const { image, memberships } = usePage().props;
 
@@ -15,10 +16,7 @@ export default function Welcome(props) {
     return (
         <>
             <Head title="Home" />
-            <div className="h-screen  bg-gray-900">
-                <section className="">
-                    <Navbar props={props} />
-                </section>
+            <Master props={props}>
                 <section className="h-full w-full bg-gray-900">
                     <div className="relative h-full">
                         <Carousal props={image} />
@@ -105,7 +103,7 @@ export default function Welcome(props) {
                     </div>
                     <FooterBrand />
                 </section>
-            </div>
+            </Master>
         </>
     );
 }
