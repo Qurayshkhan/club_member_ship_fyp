@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\MemberController;
+use App\Models\User;
+use App\Models\UserMemberShips;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,7 +35,7 @@ Route::get('/', [HomeController::class, 'index'])->name('/');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', 'membershipcheck'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -42,7 +44,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'membershipcheck']], function () {
 
     // Users
     Route::get('/users', [UserController::class, 'index'])->name('users');
@@ -67,5 +69,16 @@ Route::group(['prefix' => 'member'], function () {
     Route::post('/create-payment-intent', [MemberController::class, 'createPaymentIntent'])->name('payment.intent');
 
     Route::post('/process-payment', [MemberController::class, 'processPayment'])->name('process.payment');
+
+    Route::get('/membership-plan-pricing', [MemberController::class, 'membershipPlans'])->name('member.membership_plan');
 });
+
+// Route::get('/get-months', function () {
+//     $user = User::find(auth()->user()->id);
+//     $userMemberShip = $user->memberShips()->first();
+
+//     dd($userMemberShip->created_at, $userMemberShip->created_at->addMonths(2));
+// });
+
+
 require __DIR__ . '/auth.php';

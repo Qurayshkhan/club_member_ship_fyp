@@ -6,7 +6,11 @@ import { Link } from "@inertiajs/react";
 
 const navigation = [
     { name: "Home", href: "/", current: true },
-    { name: "Team", href: "/", current: false },
+    {
+        name: "Pricing",
+        href: "/member/membership-plan-pricing",
+        current: false,
+    },
     { name: "Projects", href: "/", current: false },
     { name: "Calendar", href: "/", current: false },
     { name: "Login", href: "login", current: false },

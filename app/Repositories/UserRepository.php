@@ -15,6 +15,6 @@ class UserRepository
     public function users()
     {
         $userId = auth()->user()->id;
-        return $this->user->where('id', '!=', $userId)->get();
+        return $this->user->with('memberships')->where('id', '!=', $userId)->get();
     }
 }

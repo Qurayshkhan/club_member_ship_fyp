@@ -19,22 +19,58 @@ function Users(props) {
                             <Table.Head className="divide-y">
                                 <Table.HeadCell>Name</Table.HeadCell>
                                 <Table.HeadCell>Email</Table.HeadCell>
-                                <Table.HeadCell>Verified at</Table.HeadCell>
+                                <Table.HeadCell>Member Details</Table.HeadCell>
                                 <Table.HeadCell>Action</Table.HeadCell>
                             </Table.Head>
                             <Table.Body className="w-full">
                                 {user.map((item, index) => {
+                                    const { name, email, memberships } = item;
+                                    console.log(memberships);
                                     return (
                                         <Table.Row
                                             className="bg-white dark:border-gray-700 dark:bg-gray-800 w-full"
                                             key={index}
                                         >
-                                            <Table.Cell>{item.name}</Table.Cell>
+                                            <Table.Cell>{name}</Table.Cell>
+                                            <Table.Cell>{email}</Table.Cell>
                                             <Table.Cell>
-                                                {item.email}
-                                            </Table.Cell>
-                                            <Table.Cell>
-                                                {item.email_verified_at}
+                                                <div className="text-orange-700">
+                                                    {memberships.length > 0 ? (
+                                                        memberships.map(
+                                                            (
+                                                                membership,
+                                                                index
+                                                            ) => (
+                                                                <div
+                                                                    key={index}
+                                                                >
+                                                                    <p>
+                                                                        Name:
+                                                                        {
+                                                                            membership.name
+                                                                        }
+                                                                    </p>
+                                                                    <p>
+                                                                        Price:
+                                                                        {
+                                                                            membership.price
+                                                                        }
+                                                                    </p>
+                                                                    <p>
+                                                                        Months:
+                                                                        {
+                                                                            membership.duration
+                                                                        }
+                                                                    </p>
+                                                                </div>
+                                                            )
+                                                        )
+                                                    ) : (
+                                                        <p>
+                                                            Not membership yet
+                                                        </p>
+                                                    )}
+                                                </div>
                                             </Table.Cell>
                                             <Table.Cell>
                                                 <a
