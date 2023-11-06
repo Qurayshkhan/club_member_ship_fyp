@@ -27,7 +27,9 @@ class MembershipRequest extends FormRequest
             'name' => 'required',
             'description' => 'required',
             'price' => 'required|integer',
+            'member_ship_type' => 'required',
             'duration' => 'required|integer',
+
         ];
     }
 }

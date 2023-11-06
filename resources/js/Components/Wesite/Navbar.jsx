@@ -72,8 +72,8 @@ const Navbar = ({ props }) => {
                                                         (item.name ===
                                                             "Login" ||
                                                             item.name ===
-                                                                "Register") &&
-                                                            "block sm:hidden"
+                                                            "Register") &&
+                                                        "block sm:hidden"
                                                     )}
                                                     aria-current={
                                                         item.current

@@ -7,6 +7,18 @@ import { Link } from "@inertiajs/react";
 import SideBar from "@/Components/Admin/Sidebar";
 
 export default function Authenticated({ auth, header, children }) {
+
+    const user = auth.user;
+
+
+    const permissions = user.roles.reduce((acc, role) => {
+        return acc.concat(role.permissions);
+    }, []);
+
+    const [userPermissions, setUserPermissions] = useState(permissions);
+
+
+
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     const [sideBarWidth, setSideBarWidth] = useState(280);
     return (
@@ -171,7 +183,7 @@ export default function Authenticated({ auth, header, children }) {
 
             <div className="flex gap-1 items-start">
                 <aside style={{ width: sideBarWidth }} className="sidebar sticky top-0 left-0 overflow-hidden bg-gray-900 h-screen">
-                    <SideBar />
+                    <SideBar permissions={userPermissions} props={user} />
                 </aside>
                 <main style={{ width: `calc(100 % - ${sideBarWidth})` }} className="bg-slate-200 w-full">
                     {children}

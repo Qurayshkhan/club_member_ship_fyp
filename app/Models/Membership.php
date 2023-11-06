@@ -12,6 +12,7 @@ class Membership extends Model
         "id",
         "name",
         "price",
+        "member_ship_type",
         "description",
         "duration"
     ];

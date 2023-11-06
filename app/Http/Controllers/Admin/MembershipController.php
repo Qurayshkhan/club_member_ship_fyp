@@ -14,6 +14,7 @@ class MembershipController extends Controller
     public function __construct(MembershipService $membershipService)
     {
         $this->membershipService = $membershipService;
+        $this->middleware(['permission:can_view_memberships']);
     }
     public function memberShips()
     {
