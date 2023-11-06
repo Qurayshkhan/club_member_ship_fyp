@@ -55,7 +55,7 @@ let SideBar = ({ props, permissions }) => {
                         </div>
                     </div>
                 )}
-                {hasAnyPermission(["can_view_user"]) && (
+                {hasAnyPermission(["can_view_users"]) && (
 
                     <div className="flex gap-2 p-5 border-b-2 border-white">
                         <div className="font-[700]">
