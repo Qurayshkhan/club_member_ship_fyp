@@ -24,6 +24,7 @@ class MembershipService
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
+            'member_ship_type' => $request->member_ship_type,
             'duration' => $request->duration
         ];
 

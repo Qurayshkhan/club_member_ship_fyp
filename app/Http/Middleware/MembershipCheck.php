@@ -19,21 +19,26 @@ class MembershipCheck
     public function handle(Request $request, Closure $next)
     {
         $userId = auth()->user()->id;
-
+        $hasMemberShipExpiryDate =  null;
         $user = User::find($userId);
-
-        $memberShipBuyingDate = $user->memberships()->first()->pivot->created_at;
+        $currentDate = Carbon::now();
 
         $hasMemberShip = $user->memberships()->where('user_id', $userId)->exists();
 
-        $memberShipDurationMonths = $user->memberships()->first()->duration;
+        if ($hasMemberShip) {
+            $memberShipBuyingDate = $user->memberships()->first()->pivot->created_at;
 
-        $hasMemberShipExpiryDate = $memberShipBuyingDate->addMonths($memberShipDurationMonths);
+            $memberShipDurationMonths = $user->memberships()->first()->duration;
 
-        $currentDate = Carbon::now();
+            $hasMemberShipExpiryDate = $memberShipBuyingDate->addMonths($memberShipDurationMonths);
+        }
 
-        if (!$hasMemberShip &&  $currentDate >= $hasMemberShipExpiryDate) {
+        if (!$hasMemberShip) {
 
+            return to_route('member.membership_plan');
+        }
+
+        if ($currentDate >= $hasMemberShipExpiryDate) {
             return to_route('member.membership_plan');
         }
 

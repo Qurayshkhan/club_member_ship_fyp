@@ -3,7 +3,7 @@ import React from "react";
 function PricingCheck() {
     return (
         <svg
-            class="h-5 w-5 shrink-0 text-cyan-600 dark:text-cyan-500"
+            className="h-5 w-5 shrink-0 text-cyan-600 dark:text-cyan-500"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"

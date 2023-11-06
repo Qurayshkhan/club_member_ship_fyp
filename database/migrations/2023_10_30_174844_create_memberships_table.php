@@ -19,6 +19,7 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->double('price')->default(0);
             $table->double('duration')->default(0);
+            $table->enum('member_ship_type', ['free', 'paid'])->nullable();
             $table->timestamps();
         });
     }
