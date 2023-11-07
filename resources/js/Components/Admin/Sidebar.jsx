@@ -1,14 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserGroup, faGauge, faTag } from "@fortawesome/free-solid-svg-icons";
+import { faUserGroup, faGauge, faTag, faDumbbell } from "@fortawesome/free-solid-svg-icons";
 import { Link, usePage } from "@inertiajs/react";
 
 let SideBar = ({ props, permissions }) => {
 
-    console.log(props);
     const { name } = permissions;
-
-    console.log(name);
-
     const { url } = usePage();
     const iconColor = {
         color: "white", // Default icon color is white
@@ -108,6 +104,31 @@ let SideBar = ({ props, permissions }) => {
                                 href={route("memberships")}
                             >
                                 Membership
+                            </Link>
+                        </div>
+                    </div>
+                )}
+                {hasAnyPermission(["can_view_memberships"]) && (
+                    <div className="flex gap-2 p-5 border-b-2 border-white">
+                        <div className="font-[700]">
+                            <FontAwesomeIcon icon={faDumbbell} style={
+                                url === "/admin/gym-classes"
+                                    ? activeLinkStyle
+                                    : iconColor
+                            } />
+                        </div>
+                        <div className="font-[700] text-white">
+                            <Link
+                                style={
+                                    url === "/admin/gym-classes"
+                                        ? activeLinkStyle
+                                        : iconColor
+                                }
+                                preserveScroll
+                                className="hover:text-white"
+                                href={route("admin.gym_classes")}
+                            >
+                                Classes
                             </Link>
                         </div>
                     </div>

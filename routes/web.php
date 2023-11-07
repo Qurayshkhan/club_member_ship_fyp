@@ -2,12 +2,10 @@
 
 use App\Http\Controllers\Admin\MembershipController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\GymClassesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\MemberController;
-use App\Models\User;
-use App\Models\UserMemberShips;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -58,6 +56,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'membershipcheck']],
     Route::get('/edit-membership/{membership}', [MembershipController::class, 'editMemberShip'])->name('edit.membership');
 
     Route::delete('/delete-membership/{membership}', [MembershipController::class, 'deleteMemberShip'])->name('edit.membership');
+
+    // gym classes
+    Route::get('/gym-classes', [GymClassesController::class, 'index'])->name('admin.gym_classes');
+
+    Route::post('/assign-class-to-member', [GymClassesController::class, 'assignClass'])->name('admin.assign_gym_class');
 });
 
 

@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Membership::class, 'user_member_ships', 'user_id', 'membership_id')->withTimestamps();
     }
+
+    public function gymClasses()
+    {
+        return $this->belongsToMany(GymClasses::class, 'user_gym_classes', 'user_id', 'gym_classes_id')->withTimestamps();
+    }
 }
