@@ -5,16 +5,18 @@ namespace App\Repositories;
 
 use App\Helpers\StatusCode;
 use App\Models\Membership;
+use App\Models\MembershipsFee;
 use App\Traits\ApiTrait;
 
 class MembershipRepository
 {
     use ApiTrait;
 
-    protected $membership;
-    public function __construct(Membership $membership)
+    protected $membership, $membershipFee;
+    public function __construct(Membership $membership, MembershipsFee $membershipFee)
     {
         $this->membership = $membership;
+        $this->membershipFee = $membershipFee;
     }
 
     public function memberships()
@@ -44,5 +46,10 @@ class MembershipRepository
 
         $membership = $this->memberships();
         return $this->success($membership, "Delete Membership Successfully", StatusCode::OK);
+    }
+
+    public function storeMemberFeeDetails($data)
+    {
+        return $this->membershipFee->create($data);
     }
 }

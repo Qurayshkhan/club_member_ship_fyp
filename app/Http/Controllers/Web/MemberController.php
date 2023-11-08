@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Services\MembershipService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Stripe\Stripe;
 
@@ -38,9 +39,12 @@ class MemberController extends Controller
 
     public function createPaymentIntent(Request $request)
     {
+        // dd($request->all());
+        // dd(auth()->user()->id);
         // 4242 4242 4242 4242
 
         try {
+            DB::beginTransaction();
             $amount = $request->amount == 0 ? 0.50 * 100 : $request->input('amount') * 100;
             Stripe::setApiKey(config('services.stripe.secret'));
 
@@ -49,11 +53,14 @@ class MemberController extends Controller
                 'currency' => 'usd',
             ]);
             $user = User::find(auth()->user()->id);
-            $user->memberships()->sync($request->membership_id);
+            $userSuccessMembership = $user->memberships()->sync($request->membership_id);
+            $userSuccessMembership ? $this->membershipService->storeMemberFeeService($request) : null;
+            DB::commit();
             return response()->json([
                 'paymentIntent' => $paymentIntent,
             ]);
         } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'error' => $e->getMessage(),
             ], 500);

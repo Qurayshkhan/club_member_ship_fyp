@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\MembershipRepository;
+use Carbon\Carbon;
 
 class MembershipService
 {
@@ -37,5 +38,17 @@ class MembershipService
     public function deleteMemberShipService($membership)
     {
         return $this->memberShipRepository->delete($membership);
+    }
+
+    public function storeMemberFeeService($request)
+    {
+        $data = [
+            'user_id' => auth()->user()->id,
+            'membership_level' => $request->membership_level,
+            'amount' => $request->amount,
+            "discount" => $request->discount ?? 0.00,
+            "payment_date" => $request->payment_date ?? Carbon::now(),
+        ];
+        return $this->memberShipRepository->storeMemberFeeDetails($data);
     }
 }

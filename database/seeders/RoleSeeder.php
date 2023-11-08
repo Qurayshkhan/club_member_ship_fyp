@@ -24,9 +24,14 @@ class RoleSeeder extends Seeder
             'dashboard',
             'users',
             'memberships',
+            'classes',
+            'account_details',
             'can_view_users',
             'can_view_dashboard',
             'can_view_memberships',
+            'can_view_classes',
+            'can_view_account',
+
         ];
 
 
@@ -46,6 +51,8 @@ class RoleSeeder extends Seeder
         //     ->givePermissionTo(['can_view_users', 'can_view_memberships']);
 
         $role = Role::create(['name' => 'admin']);
+        $memberRole = Role::create(['name' => 'member']);
         $role->givePermissionTo(Permission::all());
+        $memberRole->givePermissionTo(['dashboard', 'can_view_dashboard', 'can_view_account']);
     }
 }

@@ -21,7 +21,7 @@ class GymClasses
 
     public function gymCLasses()
     {
-        return $this->gymClasses->all();
+        return $this->gymClasses->latest()->paginate(10);
     }
 
     public function storeUserGymClass($data)

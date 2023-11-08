@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(GymClasses::class, 'user_gym_classes', 'user_id', 'gym_classes_id')->withTimestamps();
     }
+
+    public function membershipFee()
+    {
+        return $this->hasMany(MembershipsFee::class);
+    }
 }

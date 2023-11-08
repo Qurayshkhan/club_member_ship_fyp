@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserGroup, faGauge, faTag, faDumbbell } from "@fortawesome/free-solid-svg-icons";
+import { faUserGroup, faGauge, faTag, faDumbbell, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 import { Link, usePage } from "@inertiajs/react";
 
 let SideBar = ({ props, permissions }) => {
@@ -108,7 +108,7 @@ let SideBar = ({ props, permissions }) => {
                         </div>
                     </div>
                 )}
-                {hasAnyPermission(["can_view_memberships"]) && (
+                {hasAnyPermission(["can_view_classes"]) && (
                     <div className="flex gap-2 p-5 border-b-2 border-white">
                         <div className="font-[700]">
                             <FontAwesomeIcon icon={faDumbbell} style={
@@ -129,6 +129,33 @@ let SideBar = ({ props, permissions }) => {
                                 href={route("admin.gym_classes")}
                             >
                                 Classes
+                            </Link>
+                        </div>
+                    </div>
+                )}
+                {hasAnyPermission(["can_view_account"]) && (
+                    <div className="flex gap-2 p-5 border-b-2 border-white">
+                        <div className="font-[700]">
+                            <FontAwesomeIcon icon={faFileInvoice} style={
+                                url === "/admin/members-account-details"
+                                    ? activeLinkStyle
+                                    : iconColor
+                            } />
+
+
+                        </div>
+                        <div className="font-[700] text-white">
+                            <Link
+                                style={
+                                    url === "/admin/members-account-details"
+                                        ? activeLinkStyle
+                                        : iconColor
+                                }
+                                preserveScroll
+                                className="hover:text-white"
+                                href={route("admin.account_details")}
+                            >
+                                Account Details
                             </Link>
                         </div>
                     </div>

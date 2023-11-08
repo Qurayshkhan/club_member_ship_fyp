@@ -1,4 +1,5 @@
 import ContentSection from '@/Components/Admin/ContentSection';
+import Pagination from '@/Components/Pagination';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import { Head, usePage } from '@inertiajs/react';
 import { Button, Table } from 'flowbite-react';
@@ -28,7 +29,7 @@ function GymClasses(props) {
                         <Table.HeadCell>Action</Table.HeadCell>
                     </Table.Head>
                     <Table.Body className="w-full">
-                        {gymClass.map((item, index) => {
+                        {gymClass.data.map((item, index) => {
                             const { name, description, fee, class_time } = item;
                             return (
                                 <Table.Row
@@ -68,6 +69,7 @@ function GymClasses(props) {
 
                     </Table.Body>
                 </Table>
+                {gymClass && <Pagination class="mt-6" links={gymClass.links} />}
             </ContentSection>
         </Authenticated>
     )

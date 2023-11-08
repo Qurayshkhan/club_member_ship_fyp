@@ -4,7 +4,7 @@ import axios from "axios"; // Import Axios
 import AlertComponent from "@/Components/Alert";
 
 function Payment({ planDetails }) {
-    const { price, id } = planDetails;
+    const { price, id, name } = planDetails;
     const stripe = useStripe();
     const elements = useElements();
     const [loading, setLoading] = useState(false);
@@ -51,8 +51,11 @@ function Payment({ planDetails }) {
     const createPaymentIntent = async () => {
         try {
             const response = await axios.post("/member/create-payment-intent", {
-                amount: price,
+                membership_level: name,
                 membership_id: id,
+                amount: price,
+                discount: "",
+                payment_date: ""
             });
 
             if (response.data.paymentIntent) {
