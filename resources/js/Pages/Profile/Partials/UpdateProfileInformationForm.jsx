@@ -7,7 +7,8 @@ import { Transition } from '@headlessui/react';
 
 export default function UpdateProfileInformation({ mustVerifyEmail, status, className }) {
     const user = usePage().props.auth.user;
-
+    const userQRCodePath = usePage().props.userQRCodePath;
+    console.log(userQRCodePath);
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         name: user.name,
         email: user.email,
@@ -20,14 +21,26 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     };
 
     return (
-        <section className={className}>
-            <header>
-                <h2 className="text-lg font-medium text-gray-900">Profile Information</h2>
+        <section>
+            <div className='flex justify-between'>
+                <header>
+                    <h2 className="text-lg font-medium text-gray-900">Profile Information</h2>
 
-                <p className="mt-1 text-sm text-gray-600">
-                    Update your account's profile information and email address.
-                </p>
-            </header>
+                    <p className="mt-1 text-sm text-gray-600">
+                        Update your account's profile information and email address.
+                    </p>
+                </header>
+                <div>
+                    {userQRCodePath &&
+                        <a href={userQRCodePath} download>
+                            <img src={userQRCodePath} alt="QR CODE" width="100px" />
+                        </a>
+                    }
+                    <Link href='/scan-qr-code'>
+                        <button className="bg-theme-orange mt-2 text-white rounded-sm p-1">Scan QR Code</button>
+                    </Link>
+                </div>
+            </div>
 
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div>

@@ -10,9 +10,11 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class RegisteredUserController extends Controller
 {
@@ -29,6 +31,8 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
+
+
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
@@ -42,10 +46,21 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
         $user->assignRole('member');
         event(new Registered($user));
 
         Auth::login($user);
+
+        $email = $user->email;
+        $qrCode = QrCode::size(300)->generate($email);
+
+        $path = 'qr_code/' . $user->email . '.svg';
+
+        Storage::put('public/' . $path, $qrCode);
+
+        $user->qr_image = $path;
+        $user->save();
 
         return redirect(RouteServiceProvider::HOME);
     }
