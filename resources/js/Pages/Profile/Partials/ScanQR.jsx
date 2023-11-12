@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Html5QrcodeScanner } from "html5-qrcode";
 import axios from 'axios';
+import AlertComponent from '@/Components/Alert';
+import { usePage } from '@inertiajs/inertia-react';
 
 function ScanQR() {
-
-    const [scanResult, setScanResult] = useState("");
-    const [handleInput, setHandleInput] = useState({
-        email: "",
-    });
+    const [showAlert, setShowAlert] = useState(false);
+    const [showAlertMessage, setShowAlertMessage] = useState("");
 
     useEffect(() => {
 
@@ -24,9 +23,14 @@ function ScanQR() {
         function success(result) {
             scanner.clear();
 
-            setHandleInput({ email: result });
-
-            axios.post('/scan-attendance', { email: result });
+            axios.post('/scan-attendance', { email: result }).then((response) => {
+                const { message } = response.data;
+                setShowAlertMessage(message);
+                setShowAlert(true);
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 2000);
+            });
             // setScanResult(result);
 
         }
@@ -42,11 +46,11 @@ function ScanQR() {
     return (
         <>
             <div className='h-screen'>
+                {showAlert && <AlertComponent>
+                    {showAlertMessage}
+                </AlertComponent>}
                 <div className="container mx-auto h-full w-[50%] mt-24">
                     <div id='reader'></div>
-
-
-                    {scanResult ? <div>Success: {scanResult}</div> : ""}
                 </div>
             </div>
         </>

@@ -25,12 +25,14 @@ class RoleSeeder extends Seeder
             'users',
             'memberships',
             'classes',
+            'attendances',
             'account_details',
             'can_view_users',
             'can_view_dashboard',
             'can_view_memberships',
             'can_view_classes',
             'can_view_account',
+            'can_view_attendances',
 
         ];
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AccountDetailsController;
+use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\MembershipController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\GymClassesController;
@@ -66,6 +67,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'membershipcheck']],
     Route::post('/assign-class-to-member', [GymClassesController::class, 'assignClass'])->name('admin.assign_gym_class');
 
     Route::get('/members-account-details', [AccountDetailsController::class, 'accountDetailsRecords'])->name('admin.account_details');
+
+    Route::get('/member-attendances', [AttendanceController::class, 'attendances'])->name('admin.member_attendances');
 });
 
 
