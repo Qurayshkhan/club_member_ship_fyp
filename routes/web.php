@@ -33,9 +33,7 @@ use Inertia\Inertia;
 
 Route::get('/', [HomeController::class, 'index'])->name('/');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified', 'membershipcheck'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -46,7 +44,12 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'membershipcheck']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'membershipcheck', 'verified']], function () {
+
+
+    // dashboard
+
+    Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 
     // Users
     Route::get('/users', [UserController::class, 'index'])->name('users');

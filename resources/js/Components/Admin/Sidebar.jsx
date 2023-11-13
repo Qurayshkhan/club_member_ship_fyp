@@ -29,7 +29,7 @@ let SideBar = ({ props, permissions }) => {
                             <FontAwesomeIcon
                                 icon={faGauge}
                                 style={
-                                    url === "/dashboard"
+                                    url === "/admin/dashboard"
                                         ? activeLinkStyle
                                         : iconColor
                                 }
@@ -38,13 +38,13 @@ let SideBar = ({ props, permissions }) => {
                         <div className="font-[700] text-white">
                             <Link
                                 style={
-                                    url === "/dashboard"
+                                    url === "/admin/dashboard"
                                         ? activeLinkStyle
                                         : iconColor
                                 }
                                 preserveScroll
                                 className="hover:text-white"
-                                href="/dashboard"
+                                href="/admin/dashboard"
                             >
                                 Dashboard
                             </Link>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Services\DashboardService;
 use App\Services\MembershipService;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
@@ -11,10 +12,11 @@ use Inertia\Inertia;
 
 class HomeController extends Controller
 {
-    protected $membershipService;
-    public function __construct(MembershipService $membershipService)
+    protected $membershipService, $dashboardService;
+    public function __construct(MembershipService $membershipService, DashboardService $dashboardService)
     {
         $this->membershipService = $membershipService;
+        $this->dashboardService = $dashboardService;
     }
     public function index()
     {
@@ -38,5 +40,11 @@ class HomeController extends Controller
             'image' => $image,
             'memberships' => $memberShips,
         ]);
+    }
+
+    public function dashboard()
+    {
+        $counts = $this->dashboardService->counts();
+        return Inertia::render('Dashboard', ['counts' => $counts]);
     }
 }

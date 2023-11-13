@@ -39,7 +39,7 @@ function Payment({ planDetails }) {
                 await processPayment(data.id);
                 setLoading(false);
                 setShowAlert(true);
-                window.location.href = "/dashboard";
+                window.location.href = "/admin/dashboard";
             }
         } catch (error) {
             console.error(error);
