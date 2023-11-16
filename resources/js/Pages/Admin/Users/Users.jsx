@@ -2,17 +2,15 @@ import { useState } from "react";
 import ContentSection from "@/Components/Admin/ContentSection";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage } from "@inertiajs/react";
-import { Button, Select, Table } from "flowbite-react";
+import { Button, Dropdown, Select, Table } from "flowbite-react";
 import React from "react";
-import Modal from "@/Components/Modal";
 import ModalComponent from "@/Components/Admin/Modal";
 import DangerButton from "@/Components/DangerButton";
 import PrimaryButton from "@/Components/PrimaryButton";
 import InputLabel from "@/Components/InputLabel";
-import InputSelect from "@/Components/InputSelect";
 import axios from "axios";
 import AlertComponent from "@/Components/Alert";
-
+import TextInput from "@/Components/TextInput";
 function Users(props) {
     const { users, gym_classes } = usePage().props;
     const [showModal, setShowModal] = useState(false);
@@ -22,15 +20,19 @@ function Users(props) {
         member_id: "",
         gym_class_id: "",
     });
-
-
     const [changeComponent, setChangeComponent] = useState(false);
-
     const [user, setUser] = useState(users);
-
-
     const [gymClasses, setGymClasses] = useState(gym_classes);
+    const [goalModal, setGoalModal] = useState(false);
 
+    const [inputGoal, setInputGoal] = useState({
+        member_id: "",
+        goal: "",
+        initial_weight: "",
+        target_weight: "",
+        start_date: "",
+        target_date: ""
+    });
 
     let handleChange = (event) => {
         const { name, value } = event.target;
@@ -40,7 +42,6 @@ function Users(props) {
             [name]: value,
         })
     }
-
     let handleAssignClass = (id) => {
         setHandleInput({
             ...handleInput,
@@ -48,7 +49,6 @@ function Users(props) {
         });
 
         setShowAlert(false);
-        setShowAlertMessage("");
         setShowModal(true);
 
     }
@@ -64,6 +64,7 @@ function Users(props) {
 
             setTimeout(() => {
                 setShowModal(false);
+                setShowAlert(false);
             }, 2000);
         }).catch((error) => {
             console.log(error);
@@ -72,10 +73,44 @@ function Users(props) {
 
     let closeModal = () => {
         setShowModal(false);
+        setGoalModal(false);
+        setShowAlert(false);
     }
 
     let toggleComponent = () => {
         changeComponent == true ? setChangeComponent(false) : setChangeComponent(true);
+    }
+
+    let handleSetGoalId = (id) => {
+        setGoalModal(true);
+        setShowAlert(false);
+        setInputGoal({
+            ...inputGoal,
+            member_id: id
+        });
+    }
+
+    let handleGoalInputChange = (event) => {
+        const { name, value } = event.target;
+        setInputGoal({
+            ...inputGoal,
+            [name]: value,
+        });
+    }
+
+    let handleSetGoal = (event) => {
+        event.preventDefault();
+        axios.post('/admin/fitness-goals', inputGoal).then((response) => {
+            const { data, message } = response.data;
+
+            setShowAlertMessage(message);
+            setShowAlert(true);
+            setTimeout(() => {
+                setInputGoal("");
+                setShowAlertMessage("");
+                setGoalModal(false);
+            }, 2000);
+        });
     }
     return (
         <>
@@ -105,7 +140,7 @@ function Users(props) {
                             <div className="mb-2">
                                 <InputLabel htmlFor="gymClasses" value="Classes" />
                                 <Select onChange={handleChange} name="gym_class_id">
-                                    {gymClasses.map((item, index) => (
+                                    {gymClasses.data.map((item, index) => (
                                         <option value={item.id}>{item.name}</option>
                                     ))}
                                 </Select>
@@ -155,6 +190,57 @@ function Users(props) {
                 }
             </ModalComponent >}
 
+            {goalModal && <ModalComponent>
+
+
+                {showAlert &&
+
+                    <AlertComponent>
+                        {showAlertMessage}
+                    </AlertComponent>
+                }
+
+                <div className="text-theme-orange font-[700] text-lg">
+                    <div className="flex justify-between">
+                        <h1>Set Goal</h1>
+                    </div>
+
+                </div>
+                <div className="pt-2">
+                    <form onSubmit={handleSetGoal}>
+                        <div className="mb-3">
+                            <InputLabel value="Set Goal" />
+                            <TextInput className="w-full" name="goal" placeholder="Enter Goal Name" onChange={handleGoalInputChange} />
+                        </div>
+                        <div className="mb-3">
+                            <InputLabel value="Initial Weight" />
+                            <TextInput type="number" name="initial_weight" className="w-full" placeholder="Enter Current Weight" onChange={handleGoalInputChange} />
+                        </div>
+                        <div className="mb-3">
+                            <InputLabel value="Target Weight" />
+                            <TextInput type="number" name="target_weight" className="w-full" placeholder="Enter Current Weight" onChange={handleGoalInputChange} />
+                        </div>
+                        <div className="mb-3">
+                            <InputLabel value="Start Date" />
+                            <TextInput type="date" name="start_date" className="w-full" placeholder="Enter Start Date" onChange={handleGoalInputChange} />
+                        </div>
+                        <div className="mb-3">
+                            <InputLabel value="Target Date" />
+                            <TextInput type="date" name="target_date" className="w-full" placeholder="Enter Target Date" onChange={handleGoalInputChange} />
+                        </div>
+                        <div>
+                            <div className="flex gap-2 justify-end">
+                                <Button onClick={closeModal} className="bg-gray-800">
+                                    Close
+                                </Button>
+                                <Button type="submit" className="bg-theme-orange">
+                                    Set Goal
+                                </Button>
+                            </div>
+                        </div>
+                    </form>
+                </div >
+            </ModalComponent >}
             <Authenticated auth={props.auth} errors={props.errors}>
                 <Head title="Users" />
                 <ContentSection heading="Users">
@@ -216,12 +302,23 @@ function Users(props) {
                                                 </div>
                                             </Table.Cell>
                                             <Table.Cell>
-                                                <a
-                                                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                                                    href="#"
-                                                    onClick={() => handleAssignClass(id)}>
-                                                    <p>Assign Class</p>
-                                                </a>
+
+                                                <div>
+                                                    <Dropdown label="Menu">
+                                                        <Dropdown.Item>
+                                                            <div
+                                                                className="font-medium  hover:underline dark:text-cyan-500"
+                                                                onClick={() => handleAssignClass(id)}>
+                                                                Assign Class
+                                                            </div>
+                                                        </Dropdown.Item>
+                                                        <Dropdown.Item>
+                                                            <div onClick={() => handleSetGoalId(id)}>
+                                                                Set Fitness Goal
+                                                            </div>
+                                                        </Dropdown.Item>
+                                                    </Dropdown>
+                                                </div>
                                             </Table.Cell>
                                         </Table.Row>
                                     );

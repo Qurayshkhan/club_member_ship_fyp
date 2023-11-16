@@ -82,7 +82,7 @@ class DashboardRepository
             ->select(
                 DB::raw("COUNT(*) as count"),
                 DB::raw("DATE(check_in) as date"),
-            )
+            )->where('user_id', auth()->user()->id)
             ->whereBetween('check_in', [$firstDayOfMonth, $lastDayOfMonth])
             ->groupBy('date')
             ->orderBy('date', 'ASC')
