@@ -24,6 +24,13 @@ function Users(props) {
     const [user, setUser] = useState(users);
     const [gymClasses, setGymClasses] = useState(gym_classes);
     const [goalModal, setGoalModal] = useState(false);
+    const [routineModal, setRoutineModal] = useState(false);
+    const [InputRoutine, setInputRoutine] = useState({
+        fitness_goal_id: "",
+        title: "",
+        start_date: "",
+        end_date: "",
+    });
 
     const [inputGoal, setInputGoal] = useState({
         member_id: "",
@@ -72,9 +79,11 @@ function Users(props) {
     }
 
     let closeModal = () => {
+
         setShowModal(false);
         setGoalModal(false);
         setShowAlert(false);
+        setRoutineModal(false);
     }
 
     let toggleComponent = () => {
@@ -110,6 +119,40 @@ function Users(props) {
                 setShowAlertMessage("");
                 setGoalModal(false);
             }, 2000);
+        });
+    }
+
+    let handleGoalIdInRoutine = (goal_id) => {
+        setInputRoutine({
+            ...InputRoutine,
+            fitness_goal_id: goal_id
+        });
+        setRoutineModal(true);
+        setShowAlert(false);
+    }
+
+    let handleRoutineInputChange = (event) => {
+        const { name, value } = event.target;
+        setInputRoutine({
+            ...InputRoutine,
+            [name]: value
+        });
+    }
+
+    let handleSetRoutine = (event) => {
+        event.preventDefault();
+        axios.post('/admin/set-goal-fitness-routine', InputRoutine).then((response) => {
+            const { data, message } = response.data;
+            setShowAlertMessage(message);
+
+            setTimeout(() => {
+                setInputRoutine("");
+                setShowAlertMessage("");
+                setRoutineModal(false);
+            }, 2000);
+
+        }).then((error) => {
+            console.log(error);
         });
     }
     return (
@@ -239,7 +282,50 @@ function Users(props) {
                             </div>
                         </div>
                     </form>
-                </div >
+                </div>
+            </ModalComponent >}
+            {routineModal && <ModalComponent>
+
+
+                {showAlert &&
+
+                    <AlertComponent>
+                        {showAlertMessage}
+                    </AlertComponent>
+                }
+
+                <div className="text-theme-orange font-[700] text-lg">
+                    <div className="flex justify-between">
+                        <h1>Set Routine</h1>
+                    </div>
+
+                </div>
+                <div className="pt-2">
+                    <form onSubmit={handleSetRoutine}>
+                        <div className="mb-3">
+                            <InputLabel value="Title" />
+                            <TextInput type="text" name="title" className="w-full" placeholder="Enter Title" onChange={handleRoutineInputChange} />
+                        </div>
+                        <div className="mb-3">
+                            <InputLabel value="Start Date" />
+                            <TextInput type="date" name="start_date" className="w-full" placeholder="Enter Start Date" onChange={handleRoutineInputChange} />
+                        </div>
+                        <div className="mb-3">
+                            <InputLabel value="End Date" />
+                            <TextInput type="date" name="end_date" className="w-full" placeholder="Enter End Date" onChange={handleRoutineInputChange} />
+                        </div>
+                        <div>
+                            <div className="flex gap-2 justify-end">
+                                <Button onClick={closeModal} className="bg-gray-800">
+                                    Close
+                                </Button>
+                                <Button type="submit" className="bg-theme-orange">
+                                    Set Routine
+                                </Button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </ModalComponent >}
             <Authenticated auth={props.auth} errors={props.errors}>
                 <Head title="Users" />
@@ -254,7 +340,7 @@ function Users(props) {
                             </Table.Head>
                             <Table.Body className="w-full">
                                 {user.map((item, index) => {
-                                    const { id, name, email, memberships } = item;
+                                    const { id, name, email, memberships, fitness_goal } = item;
                                     return (
                                         <Table.Row
                                             className="bg-white dark:border-gray-700 dark:bg-gray-800 w-full"
@@ -315,6 +401,11 @@ function Users(props) {
                                                         <Dropdown.Item>
                                                             <div onClick={() => handleSetGoalId(id)}>
                                                                 Set Fitness Goal
+                                                            </div>
+                                                        </Dropdown.Item>
+                                                        <Dropdown.Item>
+                                                            <div onClick={() => handleGoalIdInRoutine(fitness_goal.id)}>
+                                                                Set Routine
                                                             </div>
                                                         </Dropdown.Item>
                                                     </Dropdown>

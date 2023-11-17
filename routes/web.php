@@ -75,6 +75,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'membershipcheck', '
     Route::get('/member-attendances', [AttendanceController::class, 'attendances'])->name('admin.member_attendances');
 
     Route::resource('fitness-goals', FitnessGoalController::class);
+    Route::post('/set-goal-fitness-routine', [FitnessGoalController::class, 'setRoutine'])->name('admin.set_goal_fitness_routine');
 });
 
 
@@ -88,6 +89,8 @@ Route::group(['prefix' => 'member'], function () {
     Route::post('/process-payment', [MemberController::class, 'processPayment'])->name('process.payment');
 
     Route::get('/membership-plan-pricing', [MemberController::class, 'membershipPlans'])->name('member.membership_plan');
+
+    Route::get('/my-routine', [FitnessGoalController::class, 'myRoutine'])->name('member.my_routine');
 });
 
 // Route::get('/get-months', function () {

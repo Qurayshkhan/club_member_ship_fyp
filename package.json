@@ -37,6 +37,8 @@
         "flowbite-react": "^0.6.4",
         "html5-qrcode": "^2.3.8",
         "jquery": "^3.7.1",
+        "moment": "^2.29.4",
+        "react-big-calendar": "^1.8.5",
         "react-chartjs-2": "^5.2.0",
         "react-toastify": "^9.1.3"
     }

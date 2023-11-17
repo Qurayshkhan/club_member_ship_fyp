@@ -32,4 +32,23 @@ class FitnessGoalService
         $goal = $this->fitnessGoalRepository->setMemberGoal($data);
         return $this->success($goal, "Set Goal Successfully", StatusCode::OK);
     }
+
+    public function setGoalRoutineService($request)
+    {
+
+        $data = [
+            'fitness_goal_id' => $request->fitness_goal_id,
+            'title' => $request->title,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date
+        ];
+
+        $routine = $this->fitnessGoalRepository->storeSetRoutine($data);
+        return $this->success($routine, "Routine Set Successfully", StatusCode::OK);
+    }
+
+    public function myFitnessRoutine()
+    {
+        return $this->fitnessGoalRepository->fitnessRoutine();
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Services\FitnessGoalService;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class FitnessGoalController extends Controller
 {
@@ -91,5 +92,20 @@ class FitnessGoalController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function setRoutine(Request $request)
+    {
+        try {
+            return $this->fitnessGoalService->setGoalRoutineService($request);
+        } catch (\Exception $exception) {
+            info($exception->getMessage());
+        }
+    }
+
+    public function myRoutine()
+    {
+        $goals = $this->fitnessGoalService->myFitnessRoutine();
+        return Inertia::render('Website/MyRoutine/MyRoutine', ['goals' => $goals]);
     }
 }

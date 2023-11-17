@@ -62,4 +62,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserAttendance::class);
     }
+
+    public function fitnessGoal()
+    {
+        return $this->hasOne(FitnessGoal::class);
+    }
 }
