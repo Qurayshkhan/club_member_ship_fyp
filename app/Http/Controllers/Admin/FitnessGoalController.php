@@ -103,9 +103,9 @@ class FitnessGoalController extends Controller
         }
     }
 
-    public function myRoutine()
+    public function myRoutine(Request $request)
     {
-        $goals = $this->fitnessGoalService->myFitnessRoutine();
-        return Inertia::render('Website/MyRoutine/MyRoutine', ['goals' => $goals]);
+        $goals = $this->fitnessGoalService->myFitnessRoutine($request);
+        return $request->user_id ? $goals : Inertia::render('Website/MyRoutine/MyRoutine', ['goals' => $goals]);
     }
 }

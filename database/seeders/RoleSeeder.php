@@ -27,6 +27,7 @@ class RoleSeeder extends Seeder
             'memberships',
             'classes',
             'attendances',
+            'routines',
             'account_details',
             'can_view_users',
             'can_view_dashboard',
@@ -35,7 +36,8 @@ class RoleSeeder extends Seeder
             'can_view_account',
             'can_view_attendances',
             'can_view_admin_analytics',
-            'can_view_member_analytics'
+            'can_view_member_analytics',
+            'can_view_my_routine',
 
         ];
 
@@ -76,6 +78,6 @@ class RoleSeeder extends Seeder
 
             ]
         );
-        $memberRole->givePermissionTo(['dashboard', 'can_view_dashboard', 'can_view_account', 'can_view_member_analytics']);
+        $memberRole->givePermissionTo(['dashboard', 'can_view_dashboard', 'can_view_account', 'can_view_member_analytics', 'can_view_my_routine']);
     }
 }

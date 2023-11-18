@@ -31,7 +31,7 @@ function Users(props) {
         start_date: "",
         end_date: "",
     });
-
+    const [memberGoals, setMemberGoals] = useState([]);
     const [inputGoal, setInputGoal] = useState({
         member_id: "",
         goal: "",
@@ -121,16 +121,16 @@ function Users(props) {
             }, 2000);
         });
     }
-
-    let handleGoalIdInRoutine = (goal_id) => {
-        setInputRoutine({
-            ...InputRoutine,
-            fitness_goal_id: goal_id
+    let handleGoalInRoutine = (user_id) => {
+        setMemberGoals([]);
+        axios.get(`/member/my-routine?user_id=${user_id}`).then((response) => {
+            const { data } = response;
+            setMemberGoals(data);
         });
+
         setRoutineModal(true);
         setShowAlert(false);
     }
-
     let handleRoutineInputChange = (event) => {
         const { name, value } = event.target;
         setInputRoutine({
@@ -138,7 +138,6 @@ function Users(props) {
             [name]: value
         });
     }
-
     let handleSetRoutine = (event) => {
         event.preventDefault();
         axios.post('/admin/set-goal-fitness-routine', InputRoutine).then((response) => {
@@ -151,7 +150,7 @@ function Users(props) {
                 setRoutineModal(false);
             }, 2000);
 
-        }).then((error) => {
+        }).catch((error) => {
             console.log(error);
         });
     }
@@ -303,16 +302,26 @@ function Users(props) {
                 <div className="pt-2">
                     <form onSubmit={handleSetRoutine}>
                         <div className="mb-3">
+                            <InputLabel htmlFor="Select Goals" value="Classes" />
+                            <Select onChange={handleRoutineInputChange} name="fitness_goal_id">
+                                <option>Select Goal</option>
+                                {memberGoals.map((item, index) => (
+                                    <option value={item.id} key={index}>{item.goal}</option>
+                                ))}
+                            </Select>
+                            {/* <div className="text-red-500">{fieldErrors.name}</div> */}
+                        </div>
+                        <div className="mb-3">
                             <InputLabel value="Title" />
                             <TextInput type="text" name="title" className="w-full" placeholder="Enter Title" onChange={handleRoutineInputChange} />
                         </div>
                         <div className="mb-3">
                             <InputLabel value="Start Date" />
-                            <TextInput type="date" name="start_date" className="w-full" placeholder="Enter Start Date" onChange={handleRoutineInputChange} />
+                            <TextInput type="datetime-local" name="start_date" className="w-full" placeholder="Enter Start Date" onChange={handleRoutineInputChange} />
                         </div>
                         <div className="mb-3">
                             <InputLabel value="End Date" />
-                            <TextInput type="date" name="end_date" className="w-full" placeholder="Enter End Date" onChange={handleRoutineInputChange} />
+                            <TextInput type="datetime-local" name="end_date" className="w-full" placeholder="Enter End Date" onChange={handleRoutineInputChange} />
                         </div>
                         <div>
                             <div className="flex gap-2 justify-end">
@@ -330,7 +339,7 @@ function Users(props) {
             <Authenticated auth={props.auth} errors={props.errors}>
                 <Head title="Users" />
                 <ContentSection heading="Users">
-                    <div className="overflow-x-auto">
+                    <div>
                         <Table hoverable className="overflow-auto">
                             <Table.Head className="divide-y">
                                 <Table.HeadCell>Name</Table.HeadCell>
@@ -389,7 +398,7 @@ function Users(props) {
                                             </Table.Cell>
                                             <Table.Cell>
 
-                                                <div>
+                                                <div className="">
                                                     <Dropdown label="Menu">
                                                         <Dropdown.Item>
                                                             <div
@@ -404,7 +413,7 @@ function Users(props) {
                                                             </div>
                                                         </Dropdown.Item>
                                                         <Dropdown.Item>
-                                                            <div onClick={() => handleGoalIdInRoutine(fitness_goal.id)}>
+                                                            <div onClick={() => handleGoalInRoutine(id)}>
                                                                 Set Routine
                                                             </div>
                                                         </Dropdown.Item>

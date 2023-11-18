@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserGroup, faGauge, faTag, faDumbbell, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
+import { faUserGroup, faGauge, faTag, faDumbbell, faFileInvoice, faThumbtack, faListCheck } from "@fortawesome/free-solid-svg-icons";
 import { Link, usePage } from "@inertiajs/react";
 
 let SideBar = ({ props, permissions }) => {
@@ -163,13 +163,11 @@ let SideBar = ({ props, permissions }) => {
                 {hasAnyPermission(["can_view_attendances"]) && (
                     <div className="flex gap-2 p-5 border-b-2 border-white">
                         <div className="font-[700]">
-                            <FontAwesomeIcon icon={faFileInvoice} style={
+                            <FontAwesomeIcon icon={faThumbtack} style={
                                 url === "/admin/member-attendances"
                                     ? activeLinkStyle
                                     : iconColor
                             } />
-
-
                         </div>
                         <div className="font-[700] text-white">
                             <Link
@@ -187,33 +185,31 @@ let SideBar = ({ props, permissions }) => {
                         </div>
                     </div>
                 )}
-
-                <div className="flex gap-2 p-5 border-b-2 border-white">
-                    <div className="font-[700]">
-                        <FontAwesomeIcon icon={faFileInvoice} style={
-                            url === "/admin/member-attendances"
-                                ? activeLinkStyle
-                                : iconColor
-                        } />
-
-
-                    </div>
-                    <div className="font-[700] text-white">
-                        <Link
-                            style={
+                {hasAnyPermission(["can_view_my_routine"]) && (
+                    <div className="flex gap-2 p-5 border-b-2 border-white">
+                        <div className="font-[700]">
+                            <FontAwesomeIcon icon={faListCheck} style={
                                 url === "/member/my-routine"
                                     ? activeLinkStyle
                                     : iconColor
-                            }
-                            preserveScroll
-                            className="hover:text-white"
-                            href={route("member.my_routine")}
-                        >
-                            My Routine
-                        </Link>
+                            } />
+                        </div>
+                        <div className="font-[700] text-white">
+                            <Link
+                                style={
+                                    url === "/member/my-routine"
+                                        ? activeLinkStyle
+                                        : iconColor
+                                }
+                                preserveScroll
+                                className="hover:text-white"
+                                href={route("member.my_routine")}
+                            >
+                                My Routine
+                            </Link>
+                        </div>
                     </div>
-                </div>
-
+                )}
             </div>
         </>
     );

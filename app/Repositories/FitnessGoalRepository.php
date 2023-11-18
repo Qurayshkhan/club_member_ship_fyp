@@ -4,11 +4,12 @@ namespace App\Repositories;
 
 use App\Models\FitnessGoal;
 use App\Models\FitnessGoalRoutine;
+use App\Models\User;
 
 class FitnessGoalRepository
 {
-    protected $fitnessGoal, $fitnessGoalRoutine;
-    public function __construct(FitnessGoal $fitnessGoal, FitnessGoalRoutine $fitnessGoalRoutine)
+    protected $fitnessGoal, $fitnessGoalRoutine, $user;
+    public function __construct(User $user, FitnessGoal $fitnessGoal, FitnessGoalRoutine $fitnessGoalRoutine)
     {
         // Constructor logic goes here
         $this->fitnessGoal = $fitnessGoal;
@@ -27,10 +28,10 @@ class FitnessGoalRepository
         return $this->fitnessGoalRoutine->create($data);
     }
 
-    public function fitnessRoutine()
+    public function fitnessRoutine($userId)
     {
-        $userId = auth()->user()->id;
-        $goal = $this->fitnessGoal->where('user_id', $userId)->with('fitnessRoutine')->first();
+        $user =  $userId ? $userId : auth()->user()->id;
+        $goal = $this->fitnessGoal->where('user_id', $user)->with('fitnessRoutine')->get();
         return $goal;
     }
 }

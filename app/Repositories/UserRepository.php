@@ -17,4 +17,9 @@ class UserRepository
         $userId = auth()->user()->id;
         return $this->user->with('memberships', 'gymClasses', 'fitnessGoal')->where('id', '!=', $userId)->get();
     }
+
+    public function findUser($user)
+    {
+        return $this->user->find($user);
+    }
 }

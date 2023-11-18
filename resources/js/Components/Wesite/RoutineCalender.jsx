@@ -9,12 +9,15 @@ const localizer = momentLocalizer(moment);
 
 function RoutineCalender({ routines }) {
     const [routineData, setRoutineData] = useState(routines);
-    const events = routineData.fitness_routine.map((routine) => ({
-        id: routine.id,
-        title: routine.title,
-        start: new Date(routine.start_date),
-        end: new Date(routine.end_date)
-    }));
+    const events = routineData.flatMap((fitnessRoutine) =>
+        fitnessRoutine.fitness_routine.map((routine) => ({
+            id: routine.id,
+            title: `${fitnessRoutine.goal}: ${routine.title}`,
+            start: new Date(routine.start_date),
+            end: new Date(routine.end_date)
+        }))
+    );
+
 
     return (
         <div>

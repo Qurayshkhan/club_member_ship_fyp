@@ -65,6 +65,6 @@ class User extends Authenticatable
 
     public function fitnessGoal()
     {
-        return $this->hasOne(FitnessGoal::class);
+        return $this->hasMany(FitnessGoal::class);
     }
 }
