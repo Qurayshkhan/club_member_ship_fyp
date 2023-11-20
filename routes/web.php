@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AccountDetailsController;
+use App\Http\Controllers\Admin\AnnouncementController;
 use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\FitnessGoalController;
 use App\Http\Controllers\Admin\MembershipController;
@@ -76,6 +77,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'membershipcheck', '
 
     Route::resource('fitness-goals', FitnessGoalController::class);
     Route::post('/set-goal-fitness-routine', [FitnessGoalController::class, 'setRoutine'])->name('admin.set_goal_fitness_routine');
+
+    Route::get('/announcements', [AnnouncementController::class, 'createAnnouncements'])->name('admin.announcements');
+
+    Route::post('/send-announcements', [AnnouncementController::class, 'sendAnnouncements'])->name('admin.send-announcements');
 });
 
 

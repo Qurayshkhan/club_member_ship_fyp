@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserGroup, faGauge, faTag, faDumbbell, faFileInvoice, faThumbtack, faListCheck } from "@fortawesome/free-solid-svg-icons";
+import { faUserGroup, faGauge, faTag, faDumbbell, faFileInvoice, faThumbtack, faListCheck, faBullhorn } from "@fortawesome/free-solid-svg-icons";
 import { Link, usePage } from "@inertiajs/react";
 
 let SideBar = ({ props, permissions }) => {
@@ -210,6 +210,32 @@ let SideBar = ({ props, permissions }) => {
                         </div>
                     </div>
                 )}
+
+                <div className="flex gap-2 p-5 border-b-2 border-white">
+                    <div className="font-[700]">
+                        <FontAwesomeIcon icon={faBullhorn} style={
+                            url === "/admin/announcements"
+                                ? activeLinkStyle
+                                : iconColor
+                        } />
+
+                    </div>
+                    <div className="font-[700] text-white">
+                        <Link
+                            style={
+                                url === "/admin/announcements"
+                                    ? activeLinkStyle
+                                    : iconColor
+                            }
+                            preserveScroll
+                            className="hover:text-white"
+                            href={route("admin.announcements")}
+                        >
+                            Announcements
+                        </Link>
+                    </div>
+                </div>
+
             </div>
         </>
     );

@@ -22,4 +22,9 @@ class UserRepository
     {
         return $this->user->find($user);
     }
+
+    public function getUserEmails()
+    {
+        return $this->user->role('member')->get();
+    }
 }
