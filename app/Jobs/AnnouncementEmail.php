@@ -14,15 +14,15 @@ class AnnouncementEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $email, $data, $notificationService;
+    protected $user, $data, $notificationService;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($email = null, $data)
+    public function __construct($user, $data)
     {
-        $this->email = $email;
+        $this->user = $user;
         $this->data = $data;
         $this->notificationService = new NotificationService;
     }
@@ -34,6 +34,6 @@ class AnnouncementEmail implements ShouldQueue
      */
     public function handle()
     {
-        $this->notificationService->announcementMail($this->email, $this->data);
+        $this->notificationService->announcementMail($this->user, $this->data);
     }
 }

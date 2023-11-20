@@ -5,11 +5,14 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
+import AlertComponent from '@/Components/Alert';
 function Announcements(props) {
 
     const [textEditor, setTextEditor] = useState("");
     const [progress, setProgress] = useState("Submit");
     const [isDisabled, setIsDisabled] = useState(false);
+    const [alert, setAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState("");
     let handleSubmit = (event) => {
         event.preventDefault();
         setProgress("Loading...");
@@ -17,8 +20,14 @@ function Announcements(props) {
         axios.post('/admin/send-announcements', { 'text': textEditor }).then((response) => {
 
             console.log(response);
-            setProgress("Submit");
-            setIsDisabled(false);
+            const { status } = response;
+            if (status == 200) {
+                setProgress("Submit");
+                setIsDisabled(false);
+                setTextEditor("");
+                setAlertMessage("Announcement has been sent to all members");
+                setAlert(true);
+            }
 
         }).catch((error) => {
             console.log(error);
@@ -26,10 +35,19 @@ function Announcements(props) {
             setIsDisabled(false);
         });
     }
+
+    let closeButton = () => {
+        setAlert(false);
+    }
     return (
         <Authenticated auth={props.auth} errors={props.errors}>
             <Head title='Create Announcements' />
             <ContentSection heading="Create Announcements">
+                {alert &&
+                    <AlertComponent close={closeButton}>
+                        {alertMessage}
+                    </AlertComponent>
+                }
                 <form onSubmit={handleSubmit} className="w-full">
                     <CKEditor
                         editor={ClassicEditor}

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Jobs\AnnouncementEmail;
 use App\Repositories\UserRepository;
 use Carbon\Carbon;
+use Exception;
 
 class AnnouncementService
 {
@@ -17,10 +18,11 @@ class AnnouncementService
 
     public function sendAnnouncementService($data)
     {
+        $delay = 30;
         $userWithMemberRole = $this->userRepository->getUserEmails();
         foreach ($userWithMemberRole as $key => $user) {
-            $email = $user->email;
-            AnnouncementEmail::dispatch($email, $data)->delay(Carbon::now()->addSeconds(60));
+            AnnouncementEmail::dispatch($user, $data)->delay(Carbon::now()->addSeconds($delay));
+            $delay += 30;
         }
     }
 }

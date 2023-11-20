@@ -2,9 +2,9 @@
 
 import { Alert } from "flowbite-react";
 
-function AlertComponent({ children }) {
+function AlertComponent({ children, close }) {
     return (
-        <Alert color="success" onDismiss={() => alert("Alert dismissed!")}>
+        <Alert color="success" onDismiss={close}>
             <span className="font-medium">Success</span> {children}
         </Alert>
     );

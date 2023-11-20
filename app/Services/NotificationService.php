@@ -13,8 +13,8 @@ class NotificationService
         $user->notify(new EventNotification($user, $details));
     }
 
-    public function announcementMail($email, $data)
+    public function announcementMail($user, $data)
     {
-        return Mail::to($email)->send(new AnnouncementMail($data));
+        return Mail::to($user)->send(new AnnouncementMail($data));
     }
 }
