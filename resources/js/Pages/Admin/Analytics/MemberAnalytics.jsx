@@ -13,12 +13,12 @@ function MemberAnalytics({ counts, attendanceChartCount, membershipData }) {
                 <div className="w-full">
                     <CountCard title="Attendances" count={`${counts.member_attendance_count}/${currentMonth}`} backgroundColor="#f36100" textColor="white" />
                 </div>
-                <div className="w-full">
+                {/* <div className="w-full">
                     <CountCard title="Memberships" count={counts.user_membership_count} backgroundColor="#104D5A" textColor="white" />
                 </div>
                 <div className="w-full">
                     <CountCard title="Classes" count={counts.gym_classes} backgroundColor="#C3385D" textColor="white" />
-                </div>
+                </div> */}
             </div>
             <div className="w-full">
                 <div className="p-10">

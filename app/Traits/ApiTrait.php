@@ -26,4 +26,14 @@ trait ApiTrait
 
         return response()->json($response);
     }
+    public function successJsonDecode($data, $message, $code = 200)
+    {
+
+        $response = [
+            'code' => $code,
+            'message' => $message,
+            'data' => json_decode($data),
+        ];
+        return $response;
+    }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AccountDetailsController;
 use App\Http\Controllers\Admin\AnnouncementController;
 use App\Http\Controllers\Admin\AttendanceController;
+use App\Http\Controllers\Admin\DietPlanController;
 use App\Http\Controllers\Admin\FitnessGoalController;
 use App\Http\Controllers\Admin\MembershipController;
 use App\Http\Controllers\Admin\UserController;
@@ -96,6 +97,10 @@ Route::group(['prefix' => 'member'], function () {
     Route::get('/membership-plan-pricing', [MemberController::class, 'membershipPlans'])->name('member.membership_plan');
 
     Route::get('/my-routine', [FitnessGoalController::class, 'myRoutine'])->name('member.my_routine');
+
+    Route::get('/diet-plan', [DietPlanController::class, 'dietPlan'])->name('member.dietPlan');
+
+    Route::post('/calculate-diet-plan', [DietPlanController::class, 'calculateDietPlans'])->name('member.calculate_diet_plans');
 });
 
 // Route::get('/get-months', function () {

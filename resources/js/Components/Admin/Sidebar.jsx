@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserGroup, faGauge, faTag, faDumbbell, faFileInvoice, faThumbtack, faListCheck, faBullhorn } from "@fortawesome/free-solid-svg-icons";
+import { faUserGroup, faGauge, faTag, faDumbbell, faFileInvoice, faThumbtack, faListCheck, faBullhorn, faBowlFood } from "@fortawesome/free-solid-svg-icons";
 import { Link, usePage } from "@inertiajs/react";
 
 let SideBar = ({ props, permissions }) => {
@@ -210,32 +210,58 @@ let SideBar = ({ props, permissions }) => {
                         </div>
                     </div>
                 )}
-
-                <div className="flex gap-2 p-5 border-b-2 border-white">
-                    <div className="font-[700]">
-                        <FontAwesomeIcon icon={faBullhorn} style={
-                            url === "/admin/announcements"
-                                ? activeLinkStyle
-                                : iconColor
-                        } />
-
-                    </div>
-                    <div className="font-[700] text-white">
-                        <Link
-                            style={
+                {hasAnyPermission(["can_view_announcements"]) && (
+                    <div className="flex gap-2 p-5 border-b-2 border-white">
+                        <div className="font-[700]">
+                            <FontAwesomeIcon icon={faBullhorn} style={
                                 url === "/admin/announcements"
                                     ? activeLinkStyle
                                     : iconColor
-                            }
-                            preserveScroll
-                            className="hover:text-white"
-                            href={route("admin.announcements")}
-                        >
-                            Announcements
-                        </Link>
-                    </div>
-                </div>
+                            } />
 
+                        </div>
+                        <div className="font-[700] text-white">
+                            <Link
+                                style={
+                                    url === "/admin/announcements"
+                                        ? activeLinkStyle
+                                        : iconColor
+                                }
+                                preserveScroll
+                                className="hover:text-white"
+                                href={route("admin.announcements")}
+                            >
+                                Announcements
+                            </Link>
+                        </div>
+                    </div>
+                )}
+                {hasAnyPermission(["can_view_diet_plan"]) && (
+                    <div className="flex gap-2 p-5 border-b-2 border-white">
+                        <div className="font-[700]">
+                            <FontAwesomeIcon icon={faBowlFood} style={
+                                url === "/member/diet-plan"
+                                    ? activeLinkStyle
+                                    : iconColor
+                            } />
+
+                        </div>
+                        <div className="font-[700] text-white">
+                            <Link
+                                style={
+                                    url === "/member/diet-plan"
+                                        ? activeLinkStyle
+                                        : iconColor
+                                }
+                                preserveScroll
+                                className="hover:text-white"
+                                href={route("member.dietPlan")}
+                            >
+                                Diet plans
+                            </Link>
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     );
