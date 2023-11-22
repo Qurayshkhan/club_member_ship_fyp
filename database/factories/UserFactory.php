@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -34,8 +35,11 @@ class UserFactory extends Factory
      */
     public function unverified()
     {
-        return $this->state(fn (array $attributes) => [
+        $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+        return $this->afterCreating(function (User $user) {
+            $user->assignRole('member');
+        });
     }
 }

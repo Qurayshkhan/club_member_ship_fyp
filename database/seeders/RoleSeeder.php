@@ -27,6 +27,7 @@ class RoleSeeder extends Seeder
             'memberships',
             'classes',
             'attendances',
+            'announcements',
             'routines',
             'diet_plan',
             'account_details',
@@ -80,9 +81,6 @@ class RoleSeeder extends Seeder
                 'can_view_attendances',
                 'can_view_admin_analytics',
                 'can_view_announcements',
-
-
-
             ]
         );
         $memberRole->givePermissionTo(['dashboard', 'can_view_dashboard', 'can_view_account', 'can_view_member_analytics', 'can_view_my_routine', 'can_view_diet_plan']);
