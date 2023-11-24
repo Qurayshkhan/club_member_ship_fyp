@@ -3,13 +3,16 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use App\Models\UserMemberShips;
+use Carbon\Carbon;
 
 class UserRepository
 {
-    protected $user;
-    public function __construct(User $user)
+    protected $user, $userMemberShips;
+    public function __construct(User $user, UserMemberShips $userMemberShips)
     {
         $this->user = $user;
+        $this->userMemberShips = $userMemberShips;
     }
 
     public function users()
@@ -26,5 +29,16 @@ class UserRepository
     public function getUserEmails()
     {
         return $this->user->role('member')->get();
+    }
+
+    public function findUserInMemberShip()
+    {
+
+        $existsUser = $this->user->whereHas('membershipFee', function ($query) {
+            $today = Carbon::now();
+            $query->where('user_id', auth()->user()->id)->whereDate('membership_expiry', '>', $today);
+        })->first();
+
+        return $existsUser;
     }
 }

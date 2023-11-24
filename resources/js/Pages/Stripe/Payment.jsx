@@ -9,6 +9,8 @@ function Payment({ planDetails }) {
     const elements = useElements();
     const [loading, setLoading] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
+    const [showAlertMessage, setShowAlertMessage] = useState("Payment has been done successfully");
+    const [alertColor, setAlertColor] = useState('success');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -63,8 +65,12 @@ function Payment({ planDetails }) {
             } else {
                 throw new Error("PaymentIntent not found in the response");
             }
+
         } catch (error) {
-            console.error("Error creating payment intent:", error);
+            setAlertColor("failure");
+            setShowAlertMessage("You already have membership you can renew when they are expire");
+            setShowAlert(true);
+            // console.error("Error creating payment intent:", error);
             throw error;
         }
     };
@@ -111,8 +117,8 @@ function Payment({ planDetails }) {
     return (
         <>
             {showAlert && (
-                <AlertComponent>
-                    Payment has been done successfully
+                <AlertComponent color={alertColor}>
+                    {showAlertMessage}
                 </AlertComponent>
             )}
             <div className="container mt-5 rounded-lg mx-auto my-auto h-screen">

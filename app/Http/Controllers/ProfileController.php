@@ -90,6 +90,10 @@ class ProfileController extends Controller
 
         $checkOut = $notCheckOut ? $todayDate : null;
 
+        $currentTime = Carbon::now('Asia/Karachi')->format('H:i:s');
+
+        $checkOutTime = $notCheckOut ? $currentTime : null;
+
         if ($user) {
 
             $this->userAttendance->updateOrCreate(
@@ -98,6 +102,8 @@ class ProfileController extends Controller
                     'user_id' => $user->id,
                     'check_in' => $todayDate,
                     'check_out' => $checkOut,
+                    'check_in_time' => $currentTime,
+                    'check_out_time' => $checkOutTime,
                     'status' => 'regular',
                 ],
 

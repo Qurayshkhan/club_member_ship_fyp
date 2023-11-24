@@ -9,7 +9,7 @@ class UserAttendance extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'check_in', 'check_out', 'status'];
+    protected $fillable = ['user_id', 'check_in', 'check_out', 'check_in_time', 'check_out_time', 'status'];
 
     public function user()
     {

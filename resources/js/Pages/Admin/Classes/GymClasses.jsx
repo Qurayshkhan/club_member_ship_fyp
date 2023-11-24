@@ -7,7 +7,6 @@ import React, { useState } from 'react'
 
 function GymClasses(props) {
     const { gymClasses } = usePage().props;
-    console.log(gymClasses);
     const [gymClass, setGymClass] = useState(gymClasses);
     return (
         <Authenticated auth={props.auth} errors={props.errors}>

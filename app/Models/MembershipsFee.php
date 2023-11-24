@@ -9,7 +9,7 @@ class MembershipsFee extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'membership_level', 'amount', 'discount', 'payment_date'];
+    protected $fillable = ['user_id', 'membership_level', 'amount', 'discount', 'payment_date', 'membership_expiry'];
 
     public function user()
     {

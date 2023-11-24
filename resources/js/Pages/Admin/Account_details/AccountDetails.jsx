@@ -6,11 +6,7 @@ import React, { useState } from 'react'
 
 function AccountDetails(props) {
     const { accountDetails } = usePage().props;
-
-    console.log(accountDetails);
-
     const [memberAccount, setMemberAccount] = useState(accountDetails);
-    console.log(memberAccount);
     return (
         <Authenticated auth={props.auth} errors={props.errors}>
             <Head title='Account Details' />

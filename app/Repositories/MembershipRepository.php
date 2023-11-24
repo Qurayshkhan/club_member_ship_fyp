@@ -52,4 +52,9 @@ class MembershipRepository
     {
         return $this->membershipFee->create($data);
     }
+
+    public function findMembership($membershipId)
+    {
+        return $this->membership->find($membershipId);
+    }
 }
